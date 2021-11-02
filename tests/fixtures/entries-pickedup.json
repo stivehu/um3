@@ -1,0 +1,10 @@
+{
+  "startnum": "100",
+  "distance": "10 km",
+  "firstname": "Teszt",
+  "lastname": "Elek",
+  "gender": "Nő",
+  "agegroup": "7-15 Év",
+  "pickedUp": "True",
+  "pickedupstate": "Felvette"
+}
