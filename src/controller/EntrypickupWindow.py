@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog
 from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.models.EntrypickupModel import EntrypickupModel
 from src.models.MyJson import MyJson
+from src.models.SettingsModel import SettingsModel
 from src.views.entrypickup.entrypickup import Ui_Form
 
 
@@ -13,10 +14,16 @@ class EntrypickupWindow(QDialog):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.connectSignalsSlots()
-        self.initResize()
-        # self.showMaximized()
         self.__rfid = None
         self.__entrypickupModel = EntrypickupModel()
+        self.__settings = SettingsModel()
+        self.initResize()
+        self.maximizeWindow()
+
+
+    def maximizeWindow(self):
+        if self.__settings.get_auto_maximize_opening_window() == True:
+            self.showMaximized()
 
     def connectSignalsSlots(self):
         self.ui.readRfidPushButton.clicked.connect(self.actionReadRfidPushButton)

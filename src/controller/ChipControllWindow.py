@@ -16,14 +16,20 @@ class ChipControllWindow(QDialog):
         self.ui.setupUi(self)
         self.__rfid = None
         self.__entrypickupModel = EntrypickupModel()
+        self.__settings = SettingsModel()
         self.initResize()
         self.initTimer()
+        self.maximizeWindow()
 
     def initTimer(self):
         self.timer = QTimer()
         self.timer.timeout.connect(self.scanrfid)
-        self.__settings = SettingsModel()
+
         self.timer.start(self.__settings.get_chipcontroll_interval())
+
+    def maximizeWindow(self):
+        if self.__settings.get_auto_maximize_opening_window() == True:
+            self.showMaximized()
 
     def resizeText(self, event):
         defaultSize = 14

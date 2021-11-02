@@ -11,3 +11,6 @@ class SettingsModel(object):
 
     def get_chipcontroll_wait_after_read(self):
         return 1500
+
+    def get_auto_maximize_opening_window(self):
+        return False
