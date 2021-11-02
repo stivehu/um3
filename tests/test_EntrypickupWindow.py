@@ -4,10 +4,7 @@ from PyQt5 import QtCore
 
 from src.controller.ApplicationWindow import ApplicationWindow
 from src.models.EntrypickupModel import EntrypickupModel
-
-entries_pickedup = '{  "startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'
-entries_pickeddown = '{  "startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'
-entries_badformat = '  startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'
+from tests.fixtures.jsons import *
 
 
 def test_action_read_rfid_push_button_picked_down(qtbot):

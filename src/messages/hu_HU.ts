@@ -4,16 +4,12 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="../views/chipcontroll/chipcontroll.ui" line="17"/>
         <source>Form</source>
-        <translation>Rajtszám kiadás</translation>
+        <translation type="vanished">Rajtszám kiadás</translation>
     </message>
     <message>
-        <location filename="../views/chipcontroll/chipcontroll.ui" line="32"/>
-        <location filename="../views/chipcontroll/chipcontroll.ui" line="39"/>
-        <location filename="../views/chipcontroll/chipcontroll.ui" line="46"/>
         <source>PushButton</source>
-        <translation>Rajtszám kiadása</translation>
+        <translation type="vanished">Rajtszám kiadása</translation>
     </message>
     <message>
         <location filename="../views/entrypickup/entrypickup.ui" line="17"/>
@@ -36,31 +32,42 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="17"/>
+        <source>chip controll</source>
+        <translation>chip kontrol</translation>
+    </message>
+    <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="63"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="99"/>
         <source>Gender</source>
         <translation>Nem</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="81"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="117"/>
         <source>Start num</source>
         <translation>Rajtszám</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="99"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="135"/>
         <source>First name</source>
-        <translation>Vezetéknév</translation>
+        <translation>Keresztnév</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="201"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="237"/>
         <source>Picked up</source>
         <translation>Rajtszám állapota</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="240"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="276"/>
         <source>Lastname</source>
-        <translation>Keresztnév</translation>
+        <translation>Vezetéknév</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="258"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="294"/>
         <source>distance</source>
         <translation>Táv</translation>
@@ -71,6 +78,7 @@
         <translation>Rajtszám leadása</translation>
     </message>
     <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="297"/>
         <location filename="../views/entrypickup/entrypickup.ui" line="333"/>
         <source>Age group</source>
         <translation>Korosztály</translation>

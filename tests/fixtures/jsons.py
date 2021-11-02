@@ -1,0 +1,3 @@
+entries_pickedup = '{  "startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'
+entries_pickeddown = '{  "startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'
+entries_badformat = '  startnum": "100",  "distance": "10 km",  "firstname": "Teszt",  "lastname": "Elek",  "gender": "Nő",  "agegroup": "7-15 Év",  "pickedUp": "True",  "pickedupstate": "Felvette"}'

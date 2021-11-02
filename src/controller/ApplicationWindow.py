@@ -55,8 +55,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def actionChipControllPushButton(self):
         self.hide()
-        otherview = ChipControllWindow(self)
-        otherview.show()
+        self.chipControllWindow = ChipControllWindow(self)
+        self.chipControllWindow.show()
 
     def actionRfidPushButton(self):
         self.readRfid()
