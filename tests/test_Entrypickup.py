@@ -1,10 +1,11 @@
 import json
+from os import getcwd
 
 from src.models.EntrypickupModel import EntrypickupModel
 
 
 def test_check_format():
-    with open("fixtures/entries-pickedup.json") as json_file:
+    with open("{cwd}/fixtures/entries-pickedup.json".format(cwd=getcwd())) as json_file:
         okresult = json.load(json_file)
         assert EntrypickupModel.checkFormat(okresult) == True
     badresult = okresult

@@ -4,6 +4,7 @@ from PyQt5.QtGui import QFont
 from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.controller.ChipControllWindow import ChipControllWindow
 from src.controller.EntrypickupWindow import EntrypickupWindow
+from src.controller.LocalentryWindow import LocalentryWindow
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
 
@@ -22,6 +23,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.rfidPushButton.clicked.connect(self.actionRfidPushButton)
         self.ui.entryPickupPushButton.clicked.connect(self.actionEntryPickupPushButton)
         self.ui.chipControllPushButton.clicked.connect(self.actionChipControllPushButton)
+        self.ui.localEntrypushButton.clicked.connect(self.actionLocalentryPushButton)
 
     def initResize(self):
         self.ui.localEntrypushButton.resizeEvent = self.resizeText
@@ -57,6 +59,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.hide()
         self.chipControllWindow = ChipControllWindow(self)
         self.chipControllWindow.show()
+
+    def actionLocalentryPushButton(self):
+        self.hide()
+        self.localentry = LocalentryWindow(self)
+        self.localentry.show()
 
     def actionRfidPushButton(self):
         self.readRfid()

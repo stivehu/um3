@@ -13,6 +13,6 @@ class MyJson(object):
     def verifyJson(data):
         try:
             loads(data)
-        except (ValueError, TypeError):
+        except (ValueError, TypeError) as e:
             return False
         return True

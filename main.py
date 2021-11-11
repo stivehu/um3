@@ -8,6 +8,7 @@ from src.controller.ApplicationWindow import ApplicationWindow
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setQuitOnLastWindowClosed(False)
     translator = QtCore.QTranslator(app)
     translator.load(QtCore.QLocale.system().name() + ".qm",
                     os.path.dirname(os.path.realpath(__file__)) + "/src/messages")

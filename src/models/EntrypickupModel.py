@@ -12,8 +12,6 @@ class EntrypickupModel(object):
     def updateEntryPickedUp(self, rfid):
         return self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_update_pickeding_url(rfid, 'up'))
 
-        # self.__remoteApi.get_update_pickeding_url(rfid, 'up')
-
     def updateEntryPickedDown(self, rfid):
         return self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_update_pickeding_url(rfid, 'down'))
 

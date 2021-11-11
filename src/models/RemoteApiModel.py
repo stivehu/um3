@@ -4,26 +4,34 @@ from requests.exceptions import ConnectionError
 from src.models.SettingsModel import SettingsModel
 
 
-# from SettingsModel import SettingsModel
-
-
 class RemoteApiModel(object):
 
     def __init__(self):
         self.__settings = SettingsModel()
         self.errors = []
+        self.__server = self.__settings.get_server_ip()
 
     def get_update_pickeding_url(self, rfid, upordown):
-        server = self.__settings.get_server_ip()
         if upordown == "up" or upordown == "down":
-            return "http://{server}/api/entry/update-by-rfid?rfid={rfid}&state={upordown}".format(server=server,
+            return "http://{server}/api/entry/update-by-rfid?rfid={rfid}&state={upordown}".format(server=self.__server,
                                                                                                   rfid=rfid,
                                                                                                   upordown=upordown)
         return None
 
     def get_entry_from_rfid(self, rfid):
-        server = self.__settings.get_server_ip()
-        return "http://{server}/api/entry/view-by-rfid?rfid={rfid}".format(server=server, rfid=rfid)
+        return "http://{server}/api/entry/view-by-rfid?rfid={rfid}".format(server=self.__server, rfid=rfid)
+
+    def get_distance_link(self):
+        return "http://{server}/api/distance/index".format(server=self.__server)
+
+    def get_agegroup_link(self):
+        return "http://{server}/api/category/agegroup-index".format(server=self.__server)
+
+    def get_gender_link(self):
+        return "http://{server}/api/category/gender-index".format(server=self.__server)
+
+    def get_create_entry_link(self):
+        return "http://{server}/api/entry/create".format(server=self.__server)
 
     def sendAjaxRequest(self, link, mode='get', params=None):
         try:
@@ -32,9 +40,11 @@ class RemoteApiModel(object):
             elif mode == "get":
                 response = requests.get(link, params=params, timeout=1)
             elif mode == "post":
-                response = requests.post(link, params=params, timeout=1)
+                response = requests.post(link, data=params, timeout=1)
             if response.ok:
                 return response.json()
+            else:
+                self.errors.extend(response.json())
         except ConnectionError:
             self.errors.append("Connection error")
         except IOError:
