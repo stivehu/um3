@@ -4,7 +4,7 @@ class SettingsModel(object):
         pass
 
     def get_server_ip(self):
-        return "localhost"
+        return "192.168.0.10"
 
     def get_chipcontroll_interval(self):
         return 1000

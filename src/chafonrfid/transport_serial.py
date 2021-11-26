@@ -5,7 +5,7 @@ from .transport import BaseTransport
 
 class SerialTransport(BaseTransport):
 
-    def __init__(self, device='/dev/ttyUSB0', baud_rate=57600, timeout=5):
+    def __init__(self, device='COM3', baud_rate=57600, timeout=5):
         self.serial = serial.Serial(device, baud_rate, timeout=timeout)
 
     def read_bytes(self, length):
