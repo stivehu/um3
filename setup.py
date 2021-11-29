@@ -17,7 +17,7 @@ if sys.platform == "win32":
 
 setup(
     name="um3",
-    version="0.1",
+    version="0.2",
     description="User manager 3",
     options={"build_exe": build_exe_options,
              "bdist_msi": bdist_msi_options},
