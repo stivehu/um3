@@ -5,7 +5,9 @@ from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.controller.ChipControllWindow import ChipControllWindow
 from src.controller.EntrypickupWindow import EntrypickupWindow
 from src.controller.LocalentryWindow import LocalentryWindow
+from src.controller.SettingsWindow import SettingsWindow
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
+from src.models.SettingsModel import SettingsModel
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -15,6 +17,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui = Ui_UserMangerUi()
         self.ui.setupUi(self)
         self.connectSignalsSlots()
+        self.__settings = SettingsModel()
         self.initResize()
         self.__rfid = None
 
@@ -24,16 +27,18 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.entryPickupPushButton.clicked.connect(self.actionEntryPickupPushButton)
         self.ui.chipControllPushButton.clicked.connect(self.actionChipControllPushButton)
         self.ui.localEntrypushButton.clicked.connect(self.actionLocalentryPushButton)
+        self.ui.settingPushButton.clicked.connect(self.actionSettingsPushButton)
 
     def initResize(self):
-        self.ui.localEntrypushButton.resizeEvent = self.resizeText
-        self.ui.entryPickupPushButton.resizeEvent = self.resizeText
-        self.ui.chipControllPushButton.resizeEvent = self.resizeText
-        self.ui.showResultPushButton.resizeEvent = self.resizeText
-        self.ui.rfidPushButton.resizeEvent = self.resizeText
-        self.ui.rfidLineEdit.resizeEvent = self.resizeText
-        self.ui.preEntryPushButton.resizeEvent = self.resizeText
-        self.ui.settingPushButton.resizeEvent = self.resizeText
+        if self.__settings.get_auto_resize_window():
+            self.ui.localEntrypushButton.resizeEvent = self.resizeText
+            self.ui.entryPickupPushButton.resizeEvent = self.resizeText
+            self.ui.chipControllPushButton.resizeEvent = self.resizeText
+            self.ui.showResultPushButton.resizeEvent = self.resizeText
+            self.ui.rfidPushButton.resizeEvent = self.resizeText
+            self.ui.rfidLineEdit.resizeEvent = self.resizeText
+            self.ui.preEntryPushButton.resizeEvent = self.resizeText
+            self.ui.settingPushButton.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         defaultSize = 14
@@ -54,6 +59,12 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.hide()
         self.entrypickupWindow = EntrypickupWindow(self)
         self.entrypickupWindow.show()
+
+
+    def actionSettingsPushButton(self):
+        self.hide()
+        self.settingsWindow = SettingsWindow(self)
+        self.settingsWindow.show()
 
     def actionChipControllPushButton(self):
         self.hide()

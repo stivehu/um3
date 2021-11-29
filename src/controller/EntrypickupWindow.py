@@ -93,24 +93,25 @@ class EntrypickupWindow(QDialog):
         self.ui.entryPickdownPushButton.setStyleSheet(None)
 
     def initResize(self):
-        self.ui.readRfidPushButton.resizeEvent = self.resizeText
-        self.ui.entryPickupPushButton.resizeEvent = self.resizeText
-        self.ui.startnumLineEdit.resizeEvent = self.resizeText
-        self.ui.genderLabel.resizeEvent = self.resizeText
-        self.ui.startNumLabel.resizeEvent = self.resizeText
-        self.ui.firstnameLabel.resizeEvent = self.resizeText
-        self.ui.firstnameLineEdit.resizeEvent = self.resizeText
-        self.ui.agegroupLineEdit.resizeEvent = self.resizeText
-        self.ui.lastnameLineEdit.resizeEvent = self.resizeText
-        self.ui.genderLineEdit.resizeEvent = self.resizeText
-        self.ui.pickedupLabel.resizeEvent = self.resizeText
-        self.ui.pickedupLineEdit.resizeEvent = self.resizeText
-        self.ui.lastnameLabel.resizeEvent = self.resizeText
-        self.ui.distanceLabel.resizeEvent = self.resizeText
-        self.ui.distanceLineEdit.resizeEvent = self.resizeText
-        self.ui.agegroupLabel.resizeEvent = self.resizeText
-        self.ui.entryPickdownPushButton.resizeEvent = self.resizeText
-        self.ui.statusBar.resizeEvent = self.resizeText
+        if self.__settings.get_auto_resize_window():
+            self.ui.readRfidPushButton.resizeEvent = self.resizeText
+            self.ui.entryPickupPushButton.resizeEvent = self.resizeText
+            self.ui.startnumLineEdit.resizeEvent = self.resizeText
+            self.ui.genderLabel.resizeEvent = self.resizeText
+            self.ui.startNumLabel.resizeEvent = self.resizeText
+            self.ui.firstnameLabel.resizeEvent = self.resizeText
+            self.ui.firstnameLineEdit.resizeEvent = self.resizeText
+            self.ui.agegroupLineEdit.resizeEvent = self.resizeText
+            self.ui.lastnameLineEdit.resizeEvent = self.resizeText
+            self.ui.genderLineEdit.resizeEvent = self.resizeText
+            self.ui.pickedupLabel.resizeEvent = self.resizeText
+            self.ui.pickedupLineEdit.resizeEvent = self.resizeText
+            self.ui.lastnameLabel.resizeEvent = self.resizeText
+            self.ui.distanceLabel.resizeEvent = self.resizeText
+            self.ui.distanceLineEdit.resizeEvent = self.resizeText
+            self.ui.agegroupLabel.resizeEvent = self.resizeText
+            self.ui.entryPickdownPushButton.resizeEvent = self.resizeText
+            self.ui.statusBar.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         defaultSize = 14

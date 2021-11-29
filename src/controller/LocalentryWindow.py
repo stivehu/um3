@@ -182,7 +182,8 @@ class LocalentryWindow(QDialog):
             widget.setCurrentIndex(-1)
 
     def initResize(self):
-        self.ui.startNumLabel.resizeEvent = self.resizeText
+        if self.__settings.get_auto_resize_window():
+            self.ui.startNumLabel.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         defaultSize = 14
