@@ -20,7 +20,7 @@ def find_data_file(filename):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    # app.setQuitOnLastWindowClosed(False)
+    app.setQuitOnLastWindowClosed(False)
     translator = QtCore.QTranslator(app)
 
     translator.load(QtCore.QLocale.system().name() + ".qm",
@@ -29,7 +29,6 @@ def main():
 
     application = ApplicationWindow()
     application.show()
-    # app.setQuitOnLastWindowClosed(True)
     sys.exit(app.exec_())
 
 

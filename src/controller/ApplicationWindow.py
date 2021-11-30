@@ -61,7 +61,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.entrypickupWindow = EntrypickupWindow(self)
         self.entrypickupWindow.show()
 
-
     def actionSettingsPushButton(self):
         self.hide()
         self.settingsWindow = SettingsWindow(self)
@@ -71,6 +70,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.hide()
         self.chipControllWindow = ChipControllWindow(self)
         self.chipControllWindow.show()
+        self.chipControllWindow.activateWindow()
 
     def actionLocalentryPushButton(self):
         self.hide()
@@ -91,3 +91,6 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.statusbar.showMessage(__chafonrfid.error)
         else:
             self.ui.statusbar.showMessage(None)
+
+    def closeEvent(self, event):
+        exit()
