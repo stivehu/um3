@@ -11,6 +11,7 @@ class DistanceModel(object):
         self.__remoteApi = RemoteApiModel()
         response = self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_distance_link())
         self.__distance_index = None
+        self.error = None
         if None == response:
             self.error = QtCore.QCoreApplication.translate("models", "Server error")
             self.__distances = None

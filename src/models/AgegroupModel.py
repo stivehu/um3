@@ -10,6 +10,7 @@ class AgegroupModel(object):
         response = self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_agegroup_link())
         self.__agegroup_index = []
         self.__agegroup_names = []
+        self.error = None
         if None == response:
             self.error = QtCore.QCoreApplication.translate("models", "Server error")
             self.__agegroups = None

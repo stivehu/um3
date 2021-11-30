@@ -42,10 +42,15 @@ class EntrypickupWindow(QDialog):
         else:
             self.cleanFields()
 
+    def printErrorMessage(self, error):
+        if (isinstance(error, str)):
+            self.ui.statusBar.setText(error)
+
     def actionEntryPickdownPushButton(self):
         if self.__rfid is not None:
             self.__entrypickupModel.updateEntryPickedDown(self.__rfid)
             entry = MyJson.loads(self.__entrypickupModel.get_entry_from_rfid(self.__rfid))
+            self.printErrorMessage(self.__entrypickupModel.error)
         else:
             self.cleanFields()
             return
@@ -59,6 +64,7 @@ class EntrypickupWindow(QDialog):
         entry = None
         if self.__rfid is not None:
             entry = MyJson.loads(self.__entrypickupModel.get_entry_from_rfid(self.__rfid))
+            self.printErrorMessage(self.__entrypickupModel.error)
         if EntrypickupModel.checkFormat(entry):
             self.fillFields(entry)
         else:

@@ -8,7 +8,7 @@ class RemoteApiModel(object):
 
     def __init__(self):
         self.__settings = SettingsModel()
-        self.errors = []
+        self.error = ''
         self.__server = self.__settings.get_server_ip()
 
     def get_update_pickeding_url(self, rfid, upordown):
@@ -34,6 +34,7 @@ class RemoteApiModel(object):
         return "http://{server}/api/entry/create".format(server=self.__server)
 
     def sendAjaxRequest(self, link, mode='get', params=None):
+        response = None
         try:
             if mode == "put":
                 response = requests.put(link, params=params, timeout=1)
@@ -44,12 +45,12 @@ class RemoteApiModel(object):
             if response.ok:
                 return response.json()
             else:
-                self.errors.extend(response.json())
+                self.error = response.json()
         except ConnectionError:
-            self.errors.append("Connection error")
+            self.error = "Connection error"
         except IOError:
-            self.errors.append("IO error")
-        return None
+            self.error = "IO error"
+        return response
 
     def __sendRequest(self, mode, link, params):
         if mode == "put":

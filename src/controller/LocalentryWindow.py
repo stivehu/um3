@@ -62,14 +62,21 @@ class LocalentryWindow(QDialog):
         self.ui.distanceComboBox.clear()
         self.ui.distanceComboBox.addItems(self.__distances.get_distance_names())
         self.ui.distanceComboBox.setCurrentIndex(-1)
+        self.printErrorMessage(self.__distances.error)
 
         self.ui.agegroupComboBox.clear()
         self.ui.agegroupComboBox.addItems(self.__agegroup.get_agegroup_names())
         self.ui.agegroupComboBox.setCurrentIndex(-1)
+        self.printErrorMessage(self.__agegroup.error)
 
         self.ui.genderComboBox.clear()
         self.ui.genderComboBox.addItems(self.__gender.get_gender_names())
         self.ui.genderComboBox.setCurrentIndex(-1)
+        self.printErrorMessage(self.__gender.error)
+
+    def printErrorMessage(self, error):
+        if (isinstance(error, str)):
+            self.ui.statusBarLabel.setText(error)
 
     def maximizeWindow(self):
         if self.__settings.get_auto_maximize_opening_window() == True:
@@ -155,7 +162,7 @@ class LocalentryWindow(QDialog):
     def printErrors(self):
         errors = []
         for error in self.entry.get_error_messages():
-            errors.append(error['message'])
+            errors.append(error)
         self.ui.statusBarLabel.setText("\n".join(errors))
 
     def actionNewPushButton(self):

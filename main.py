@@ -20,17 +20,16 @@ def find_data_file(filename):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    # if sys.platform != "win32":
-    #     app.setQuitOnLastWindowClosed(False)
+    # app.setQuitOnLastWindowClosed(False)
     translator = QtCore.QTranslator(app)
-    # translator.load(QtCore.QLocale.system().name() + ".qm",
-    #                 os.path.dirname(os.path.realpath(__file__)) + "/src/messages")
+
     translator.load(QtCore.QLocale.system().name() + ".qm",
                     find_data_file(QtCore.QLocale.system().name() + ".qm"))
     app.installTranslator(translator)
 
     application = ApplicationWindow()
     application.show()
+    # app.setQuitOnLastWindowClosed(True)
     sys.exit(app.exec_())
 
 

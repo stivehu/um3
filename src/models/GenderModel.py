@@ -9,6 +9,7 @@ class GenderModel(object):
         self.__remoteApi = RemoteApiModel()
         response = self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_gender_link())
         self.__gender_index = None
+        self.error = None
         if None == response:
             _translate = QtCore.QCoreApplication.translate
             self.error = _translate("models", "Server error")
