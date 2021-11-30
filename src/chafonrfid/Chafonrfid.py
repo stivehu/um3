@@ -40,7 +40,7 @@ class Chafonrfid(object):
                 result.append(tag.epc.hex())
         transport.close()
         if len(result) == 1:
-            return result[0]
+            return result[0].upper()
         elif len(result) > 1:
             self.error = "Több chip!"
             return None
