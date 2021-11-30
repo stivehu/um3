@@ -9,12 +9,13 @@ from src.chafonrfid.uhfreader18 import G2InventoryResponseFrame as G2InventoryRe
 
 class Chafonrfid(object):
 
-    def __init__(self):
+    def __init__(self, device='/dev/ttyUSB0'):
         self.error = None
+        self.device = device
 
-    def open_port(self, device='/dev/ttyUSB0'):
+    def open_port(self, ):
         try:
-            result = SerialTransport(device)
+            result = SerialTransport(self.device)
         except serial.serialutil.SerialException:
             result = None
         return result

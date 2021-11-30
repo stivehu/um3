@@ -197,7 +197,7 @@ class LocalentryWindow(QDialog):
                 widget.setFont(font)
 
     def readRfid(self):
-        __chafonrfid = Chafonrfid()
+        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
         self.__rfid = __chafonrfid.get_tid()
         if __chafonrfid.error is not None:
             self.ui.statusBarLabel.setText(__chafonrfid.error)
