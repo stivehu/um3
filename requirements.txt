@@ -2,4 +2,5 @@ huey>=2.4
 PyQt5~=5.15.5
 pyserial==3.4
 requests~=2.26.0
+pyperclip
 cx_freeze

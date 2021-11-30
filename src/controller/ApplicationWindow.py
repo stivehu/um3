@@ -1,3 +1,4 @@
+import pyperclip
 from PyQt5 import QtWidgets
 from PyQt5.QtGui import QFont
 
@@ -63,7 +64,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def actionSettingsPushButton(self):
         self.hide()
-        self.settingsWindow = SettingsWindow(self, settingsModel)
+        self.settingsWindow = SettingsWindow(self)
         self.settingsWindow.show()
 
     def actionChipControllPushButton(self):
@@ -84,6 +85,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.__settings = SettingsModel()
         __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
         self.__rfid = __chafonrfid.get_tid()
+        if isinstance(self.__rfid, str):
+            pyperclip.copy(self.__rfid)
         if __chafonrfid.error is not None:
             self.ui.statusbar.showMessage(__chafonrfid.error)
         else:
