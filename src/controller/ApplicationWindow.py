@@ -6,8 +6,8 @@ from src.controller.ChipControllWindow import ChipControllWindow
 from src.controller.EntrypickupWindow import EntrypickupWindow
 from src.controller.LocalentryWindow import LocalentryWindow
 from src.controller.SettingsWindow import SettingsWindow
-from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 from src.models.SettingsModel import SettingsModel
+from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
 
 class ApplicationWindow(QtWidgets.QMainWindow):
@@ -63,7 +63,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def actionSettingsPushButton(self):
         self.hide()
-        self.settingsWindow = SettingsWindow(self)
+        self.settingsWindow = SettingsWindow(self, settingsModel)
         self.settingsWindow.show()
 
     def actionChipControllPushButton(self):
@@ -81,6 +81,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.rfidLineEdit.setText(self.__rfid)
 
     def readRfid(self):
+        self.__settings = SettingsModel()
         __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
         self.__rfid = __chafonrfid.get_tid()
         if __chafonrfid.error is not None:
