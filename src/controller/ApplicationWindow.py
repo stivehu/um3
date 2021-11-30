@@ -81,7 +81,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.rfidLineEdit.setText(self.__rfid)
 
     def readRfid(self):
-        __chafonrfid = Chafonrfid()
+        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
         self.__rfid = __chafonrfid.get_tid()
         if __chafonrfid.error is not None:
             self.ui.statusbar.showMessage(__chafonrfid.error)
