@@ -53,7 +53,7 @@
         <location filename="../views/entrypickup/entrypickup.ui" line="37"/>
         <location filename="../views/localentry/localentry.ui" line="431"/>
         <source>Read rfid</source>
-        <translation>Csip olvasása</translation>
+        <translation>Rajtszám olvasása</translation>
     </message>
     <message>
         <location filename="../views/entrypickup/entrypickup.ui" line="55"/>
@@ -109,7 +109,7 @@
     <message>
         <location filename="../views/entrypickup/entrypickup.ui" line="356"/>
         <source>Entry pickdown</source>
-        <translation>Rajtszám leadása</translation>
+        <translation>Rajtszám visszavétele</translation>
     </message>
     <message>
         <location filename="../views/chipcontroll/chipcontroll.ui" line="96"/>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../views/localentry/localentry.ui" line="471"/>
         <source>New entry</source>
-        <translation>Új nevező</translation>
+        <translation>Törlés</translation>
     </message>
     <message>
         <location filename="../views/localentry/localentry.ui" line="487"/>

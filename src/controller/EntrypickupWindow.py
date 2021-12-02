@@ -80,10 +80,10 @@ class EntrypickupWindow(QDialog):
         self.ui.pickedupLineEdit.setText(entry['pickedupstate'])
         if str(entry['pickedUp']) == 'True':
             self.ui.entryPickupPushButton.setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
-            self.ui.entryPickdownPushButton.setStyleSheet('background-color: rgb(138, 226, 52);')  # zöld
+            self.ui.pickedupLineEdit.setStyleSheet('background-color: rgb(138, 226, 52);')  # zöld
         elif str(entry['pickedUp']) == 'False':
             self.ui.entryPickupPushButton.setStyleSheet('background-color: rgb(138, 226, 52);')  # zöld
-            self.ui.entryPickdownPushButton.setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
+            self.ui.pickedupLineEdit.setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
         else:
             self.cleanFields()
 
