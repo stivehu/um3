@@ -30,6 +30,11 @@
         <height>0</height>
        </size>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Add local entry</string>
       </property>
@@ -42,6 +47,11 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>start num pickup</string>
@@ -56,6 +66,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Chip controll</string>
       </property>
@@ -69,6 +84,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>show results</string>
       </property>
@@ -81,6 +101,11 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>show RFID</string>
@@ -98,6 +123,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -111,6 +141,11 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
       <property name="text">
        <string>Preentrys</string>
       </property>
@@ -123,6 +158,11 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
       <property name="text">
        <string>Settings</string>

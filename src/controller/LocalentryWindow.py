@@ -21,10 +21,11 @@ class LocalentryWindow(QDialog):
         self.__rfid = None
         self.__entrypickupModel = EntrypickupModel()
         self.__settings = SettingsModel()
+        self.__init_widget_dict()
         self.initResize()
         self.maximizeWindow()
         self.__initComboboxes()
-        self.__init_widget_dict()
+
 
     def __init_widget_dict(self):
         self.__widget_dict = {'labels': {}, 'comboBoxes': {}, 'lineEdits': {}, 'pushButtons': {}, 'dateEdits': {}}
