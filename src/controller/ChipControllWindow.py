@@ -94,6 +94,12 @@ class ChipControllWindow(QDialog):
             self.ui.distanceLineEdit.parent().setStyleSheet(None)
         else:
             self.ui.distanceLineEdit.parent().setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
+        self.timer.stop()
+        self.timer.singleShot(self.__settings.get_chipcontroll_wait_after_read(), self.restore_timer)
+
+    def restore_timer(self):
+        self.timer.stop()
+        self.timer.start(self.__settings.get_chipcontroll_interval())
 
     def cleanFields(self):
         self.ui.startnumLineEdit.setText(None)
