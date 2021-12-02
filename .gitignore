@@ -143,3 +143,4 @@ dmypy.json
 cython_debug/
 ./um.conf
 tests/um.conf
+!/um.conf
