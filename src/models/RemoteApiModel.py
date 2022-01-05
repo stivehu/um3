@@ -18,6 +18,16 @@ class RemoteApiModel(object):
                                                                                                   upordown=upordown)
         return None
 
+    def list_in_thebox_link(self):
+        return "http://{server}/api/entry/listinthebox".format(server=self.__server)
+
+    def setinthebox_link(self,mode,id):
+        return "http://{server}/api/entry/setinthebox?mode={mode}&id={id}".format(server=self.__server,mode=mode,id=id)
+
+    def idisexist_link(self,mode,id):
+        return "http://{server}/api/entry/idisexist?mode={mode}&id={id}".format(server=self.__server,mode=mode,id=id)
+
+
     def get_entry_from_rfid(self, rfid):
         return "http://{server}/api/entry/view-by-rfid?rfid={rfid}".format(server=self.__server, rfid=rfid)
 

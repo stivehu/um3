@@ -7,6 +7,7 @@ from src.controller.ChipControllWindow import ChipControllWindow
 from src.controller.EntrypickupWindow import EntrypickupWindow
 from src.controller.LocalentryWindow import LocalentryWindow
 from src.controller.SettingsWindow import SettingsWindow
+from src.controller.ShowInTheBoxesWindow import ShowInTheBoxesWindow
 from src.models.SettingsModel import SettingsModel
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
@@ -29,6 +30,13 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.chipControllPushButton.clicked.connect(self.actionChipControllPushButton)
         self.ui.localEntrypushButton.clicked.connect(self.actionLocalentryPushButton)
         self.ui.settingPushButton.clicked.connect(self.actionSettingsPushButton)
+        self.ui.inTheBoxesPushButton.clicked.connect(self.actionInTheBoxesPushButton)
+
+    def actionInTheBoxesPushButton(self):
+        self.hide()
+        self.showInTheBoxes = ShowInTheBoxesWindow(self)
+        self.showInTheBoxes.show()
+        self.showInTheBoxes.activateWindow()
 
     def initResize(self):
         if self.__settings.get_auto_resize_window():

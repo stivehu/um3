@@ -26,6 +26,8 @@ class AgegroupModel(object):
                 self.__agegroups = sorted(self.__agegroups, key=lambda x: x['sortid'])
         except TypeError:
             pass
+        except KeyError:
+            pass
 
     def __parse_agegroup_names(self):
         if self.__agegroups == None:
