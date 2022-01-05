@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="hu_HU" sourcelanguage="">
+<!DOCTYPE TS>
+<TS version="2.1" language="hu_HU">
 <context>
     <name>Form</name>
     <message>
@@ -150,85 +151,90 @@
     <message>
         <location filename="../controller/LocalentryWindow.py" line="122"/>
         <source>This field required  </source>
-        <translation type="unfinished"></translation>
+        <translation>Kötelező mező</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="130"/>
         <source>This field must be select </source>
-        <translation type="unfinished"></translation>
+        <translation>Válassz</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="137"/>
         <source>Startnum is required field </source>
-        <translation type="unfinished"></translation>
+        <translation>A rajtszám mező kötelező</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="144"/>
         <source>Invalid birthday</source>
-        <translation type="unfinished"></translation>
+        <translation>Érvénytelen szütelésnap</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="159"/>
         <source>New entry added</source>
-        <translation type="unfinished"></translation>
+        <translation>Új nevezőt felvettem</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="173"/>
         <source>Are you sure? This page will be destroyed</source>
-        <translation type="unfinished"></translation>
+        <translation>Biztos vagy benne? Az egész oldalt kiürítem.</translation>
     </message>
     <message>
         <location filename="../controller/LocalentryWindow.py" line="174"/>
         <source>Create new entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Új nevező létrehozása</translation>
     </message>
 </context>
 <context>
     <name>UserMangerUi</name>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="125"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="140"/>
         <source>User manager</source>
         <translation>Nevező kezelés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="126"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="141"/>
         <source>Add local entry</source>
         <translation>Helyszíni nevezés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="127"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="142"/>
         <source>start num pickup</source>
         <translation>Rajtszám kiadás</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="128"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="143"/>
         <source>Chip controll</source>
         <translation>Csip kontroll</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="129"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="144"/>
         <source>show results</source>
         <translation>Eredmény kijelző</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="130"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="146"/>
         <source>show RFID</source>
         <translation>RFID megjelenítés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="131"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="147"/>
         <source>Preentrys</source>
         <translation>Előnevezők csipezése</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="132"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="148"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.py" line="133"/>
+        <location filename="../views/mainwindow/mainwindow.py" line="149"/>
         <source>E&amp;xit</source>
         <translation>&amp;Kilépés</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.py" line="145"/>
+        <source>show in the boxes</source>
+        <translation>Dozozban maradtak</translation>
     </message>
 </context>
 <context>
@@ -236,7 +242,7 @@
     <message>
         <location filename="../models/GenderModel.py" line="15"/>
         <source>Server error</source>
-        <translation type="unfinished"></translation>
+        <translation>szerver hiba</translation>
     </message>
 </context>
 </TS>

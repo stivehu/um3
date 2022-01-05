@@ -141,6 +141,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-./um.conf
 tests/um.conf
 !/um.conf
+
