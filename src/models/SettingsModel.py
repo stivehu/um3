@@ -12,7 +12,10 @@ class SettingsModel(object):
             "ChipcontrollWaitAfterRead": 1500,
             "AutoMaximizeOpeningWindow": False,
             "AutoResizeWindow": False,
-            "CommPort": self.get_default_com_port()
+            "CommPort": self.get_default_com_port(),
+            "EntrySiteUrl": "https://www.polarsport.hu/",
+            "EntrySiteUsername": False,
+            "EntrySitePassword": False
         }
         self.__config.read("um.conf")
 
@@ -75,3 +78,25 @@ class SettingsModel(object):
     def set_comm_port(self, value):
         self.__config['DEFAULT']['CommPort'] = value
         return self
+
+    def get_entry_site_url(self):
+        return self.__config['DEFAULT']['EntrySiteUrl']
+
+    def set_entry_site_url(self, value):
+        self.__config['DEFAULT']['EntrySiteUrl'] = value
+        return self
+
+    def get_entry_site_username(self):
+        return self.__config['DEFAULT']['EntrySiteUsername']
+
+    def set_entry_site_username(self,value):
+        self.__config['DEFAULT']['EntrySiteUsername'] = value
+        return self
+
+    def get_entry_site_password(self):
+        return self.__config['DEFAULT']['EntrySitePassword']
+
+    def set_entry_site_password(self,value):
+        self.__config['DEFAULT']['EntrySitePassword'] = value
+        return self
+

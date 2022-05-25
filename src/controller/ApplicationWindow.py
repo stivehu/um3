@@ -8,6 +8,7 @@ from src.controller.EntrypickupWindow import EntrypickupWindow
 from src.controller.LocalentryWindow import LocalentryWindow
 from src.controller.SettingsWindow import SettingsWindow
 from src.controller.ShowInTheBoxesWindow import ShowInTheBoxesWindow
+from src.controller.PreentryWindow import PreentryWindow
 from src.models.SettingsModel import SettingsModel
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
@@ -31,6 +32,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.localEntrypushButton.clicked.connect(self.actionLocalentryPushButton)
         self.ui.settingPushButton.clicked.connect(self.actionSettingsPushButton)
         self.ui.inTheBoxesPushButton.clicked.connect(self.actionInTheBoxesPushButton)
+        self.ui.preEntryPushButton.clicked.connect(self.actionPreentryPushButton)
 
     def actionInTheBoxesPushButton(self):
         self.hide()
@@ -84,6 +86,11 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.hide()
         self.localentry = LocalentryWindow(self)
         self.localentry.show()
+
+    def actionPreentryPushButton(self):
+        self.hide()
+        self.preentry = PreentryWindow(self)
+        self.preentry.show()
 
     def actionRfidPushButton(self):
         self.readRfid()
