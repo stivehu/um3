@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QMessageBox
@@ -98,7 +98,7 @@ def test_get_items():
 def test_birthday_change(qtbot):
     widget = ApplicationWindow()
     qtbot.addWidget(widget)
-    RemoteApiModel.sendAjaxRequest = MagicMock(return_value=distances)
+    # RemoteApiModel.sendAjaxRequest = MagicMock(return_value=distances)
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
     widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(1978, 2, 8), QtCore.QTime(0, 0, 0)))
     assert widget.localentry.ui.agegroupComboBox.currentIndex() == 5

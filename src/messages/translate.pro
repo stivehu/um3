@@ -1,32 +1,4 @@
-SOURCES         = ../controller/ApplicationWindow.py \
-                ../controller/EntrypickupWindow.py \
-                ../controller/ChipControllWindow.py \
-                ../controller/LocalentryWindow.py \
-                ../chafonrfid/response.py \
-                ../chafonrfid/uhfreader18.py \
-                ../chafonrfid/checksum.py \
-                ../chafonrfid/transport.py \
-                ../chafonrfid/uhfreader288m.py \
-                ../chafonrfid/base.py \
-                ../chafonrfid/command.py \
-                ../chafonrfid/transport_serial.py \
-                ../chafonrfid/Chafonrfid.py \
-                ../views/mainwindow/mainwindow.py \
-                ../views/entrypickup/entrypickup.py \
-                ../views/chipcontroll/chipcontroll.py \
-                ../views/localentry/localentry.py \
-                ../models/EntrypickupModel.py \
-                ../models/SettingsModel.py \
-                ../models/RemoteApiModel.py \
-                ../models/MyJson.py \
-                ../models/AgegroupModel.py \
-                ../models/DistanceModel.py \
-                ../models/EnrtyModel.py \
-                ../models/GenderModel.py
-
-FORMS           = ../views/mainwindow/mainwindow.ui \
-                ../views/entrypickup/entrypickup.ui \
-                ../views/chipcontroll/chipcontroll.ui \
-                ../views/localentry/localentry.ui
-
+SOURCES = ../chafonrfid/__init__.py ../chafonrfid/base.py ../chafonrfid/checksum.py ../chafonrfid/command.py ../chafonrfid/response.py ../chafonrfid/transport.py ../chafonrfid/uhfreader18.py ../chafonrfid/uhfreader288m.py ../chafonrfid/Chafonrfid.py ../chafonrfid/transport_serial.py ../controller/__init__.py ../controller/ChipControllWindow.py ../controller/EntrypickupWindow.py ../controller/LocalentryWindow.py ../controller/SettingsWindow.py ../controller/ApplicationWindow.py ../controller/ShowInTheBoxesWindow.py ../controller/PreentryWindow.py ../models/MyJson.py ../models/__init__.py ../models/DistanceModel.py ../models/EntrypickupModel.py ../models/GenderModel.py ../models/SettingsModel.py ../models/AgegroupModel.py ../models/EnrtyModel.py ../models/IntheboxModel.py ../models/RemoteApiModel.py ../views/chipcontroll/__init__.py ../views/chipcontroll/chipcontroll.py ../views/entrypickup/__init__.py ../views/entrypickup/entrypickup.py ../views/localentry/__init__.py ../views/localentry/localentry.py ../views/mainwindow/__init__.py ../views/mainwindow/mainwindow.py ../views/settings/__init__.py ../views/settings/settings.py ../views/showinthebox/showinthebox.py ../views/preentry/__init__.py ../views/preentry/preentry.py ../views/__init__.py ../__init__.py
+FORMS = ../views/chipcontroll/chipcontroll.ui ../views/entrypickup/entrypickup.ui ../views/localentry/localentry.ui ../views/mainwindow/mainwindow.ui ../views/settings/settings.ui ../views/showinthebox/showinthebox.ui ../views/preentry/preentry.ui
 TRANSLATIONS    = hu_HU.ts
+

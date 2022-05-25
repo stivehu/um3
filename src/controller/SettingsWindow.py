@@ -35,6 +35,7 @@ class SettingsWindow(QDialog):
         self.__settings.set_auto_maximize_opening_window(self.ui.autoMaximizeOpeningWindowCheckBox.isChecked())
         self.__settings.set_auto_resize_window(self.ui.autoResizeWindowCheckBox.isChecked())
         self.__settings.set_comm_port(self.ui.commPortComboBox.itemText(self.ui.commPortComboBox.currentIndex()))
+        self.__settings.set_entry_site_url(self.ui.entrySiteUrllLineEdit.text())
 
     def initValues(self):
         self.ui.serverIpLineEdit.setText(self.__settings.get_server_ip())
@@ -42,6 +43,7 @@ class SettingsWindow(QDialog):
         self.ui.chipcontrollWaitAfterReadlineEdit.setText(str(self.__settings.get_chipcontroll_wait_after_read()))
         self.ui.autoMaximizeOpeningWindowCheckBox.setChecked(self.__settings.get_auto_maximize_opening_window())
         self.ui.autoResizeWindowCheckBox.setChecked(self.__settings.get_auto_resize_window())
+        self.ui.entrySiteUrllLineEdit.setText(self.__settings.get_entry_site_url())
         index = self.ui.commPortComboBox.findText(self.__settings.get_comm_port())
         if index >= 0:
             self.ui.commPortComboBox.setCurrentIndex(index)

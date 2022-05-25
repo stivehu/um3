@@ -144,3 +144,4 @@ cython_debug/
 tests/um.conf
 !/um.conf
 
+!/tests/um.conf

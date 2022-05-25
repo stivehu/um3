@@ -2,5 +2,7 @@ huey>=2.4
 PyQt5~=5.15.5
 pyserial==3.4
 requests~=2.26.0
-pyperclip
+pyperclip~=1.8.2
 cx_freeze
+beautifulsoup4~=4.11.1
+pytest~=5.2.2
