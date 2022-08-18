@@ -9,6 +9,7 @@ from src.controller.LocalentryWindow import LocalentryWindow
 from src.controller.SettingsWindow import SettingsWindow
 from src.controller.ShowInTheBoxesWindow import ShowInTheBoxesWindow
 from src.controller.PreentryWindow import PreentryWindow
+from src.controller.SendresultWindow import SendresultWindow
 from src.models.SettingsModel import SettingsModel
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
@@ -33,6 +34,14 @@ class ApplicationWindow(QtWidgets.QMainWindow):
         self.ui.settingPushButton.clicked.connect(self.actionSettingsPushButton)
         self.ui.inTheBoxesPushButton.clicked.connect(self.actionInTheBoxesPushButton)
         self.ui.preEntryPushButton.clicked.connect(self.actionPreentryPushButton)
+        self.ui.sendresultPushButton.clicked.connect(self.actionSendresultPushButton)
+
+    def actionSendresultPushButton(self):
+        self.hide()
+        self.sendresultWindow = SendresultWindow(self)
+        self.sendresultWindow.show()
+        self.sendresultWindow.activateWindow()
+
 
     def actionInTheBoxesPushButton(self):
         self.hide()

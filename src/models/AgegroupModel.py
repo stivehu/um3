@@ -1,3 +1,5 @@
+import sys
+
 from PyQt5 import QtCore
 
 from src.models.RemoteApiModel import RemoteApiModel
