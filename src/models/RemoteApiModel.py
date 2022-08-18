@@ -35,6 +35,10 @@ class RemoteApiModel(object):
     def get_entry_from_rfid(self, rfid):
         return "http://{server}/api/entry/view-by-rfid?rfid={rfid}".format(server=self.__server, rfid=rfid)
 
+    def create_entry_timestamp_from_rfid(self, rfid):
+        return "http://{server}/api/entry/create-timestamp-from-rfid?rfid={rfid}".format(server=self.__server,
+                                                                                         rfid=rfid)
+
     def get_distance_link(self):
         return "http://{server}/api/distance/index".format(server=self.__server)
 

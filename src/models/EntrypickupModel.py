@@ -12,6 +12,11 @@ class EntrypickupModel(object):
         self.error = self.__remoteApi.error
         return result
 
+    def create_entry_timestamp_from_rfid(self, rfid):
+        result = self.__remoteApi.sendAjaxRequest(self.__remoteApi.create_entry_timestamp_from_rfid(rfid))
+        self.error = self.__remoteApi.error
+        return result
+
     def updateEntryPickedUp(self, rfid):
         result = self.__remoteApi.sendAjaxRequest(self.__remoteApi.get_update_pickeding_url(rfid, 'up'))
         self.error = self.__remoteApi.error

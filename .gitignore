@@ -145,3 +145,4 @@ tests/um.conf
 !/um.conf
 
 !/tests/um.conf
+/pynguin-report/
