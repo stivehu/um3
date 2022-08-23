@@ -79,10 +79,12 @@ class EntrypickupWindow(QDialog):
         self.ui.agegroupLineEdit.setText(entry['agegroup'])
         self.ui.pickedupLineEdit.setText(entry['pickedupstate'])
         if str(entry['pickedUp']) == 'True':
-            self.ui.entryPickupPushButton.setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
+            self.ui.entryPickupPushButton.setDisabled(True)
+            self.ui.entryPickdownPushButton.setEnabled(True)
             self.ui.pickedupLineEdit.setStyleSheet('background-color: rgb(138, 226, 52);')  # zöld
         elif str(entry['pickedUp']) == 'False':
-            self.ui.entryPickupPushButton.setStyleSheet('background-color: rgb(138, 226, 52);')  # zöld
+            self.ui.entryPickupPushButton.setEnabled(True)
+            self.ui.entryPickdownPushButton.setDisabled(True)
             self.ui.pickedupLineEdit.setStyleSheet('background-color: rgb(239, 41, 41);')  # piros
         else:
             self.cleanFields()
@@ -97,6 +99,9 @@ class EntrypickupWindow(QDialog):
         self.ui.pickedupLineEdit.setText(None)
         self.ui.entryPickupPushButton.setStyleSheet(None)
         self.ui.entryPickdownPushButton.setStyleSheet(None)
+        self.ui.pickedupLineEdit.setStyleSheet(None)
+        self.ui.entryPickdownPushButton.setDisabled(True)
+        self.ui.entryPickupPushButton.setDisabled(True)
 
     def initResize(self):
         if self.__settings.get_auto_resize_window():

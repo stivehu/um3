@@ -136,7 +136,7 @@
     <message>
         <location filename="../views/localentry/localentry.ui" line="219"/>
         <source>Age group</source>
-        <translation>Korosztály</translation>
+        <translation type="unfinished">Korcsoport</translation>
     </message>
     <message>
         <location filename="../views/localentry/localentry.ui" line="134"/>
