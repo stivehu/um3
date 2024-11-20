@@ -21,7 +21,7 @@ class Chafonrfid(object):
         return result
 
     def get_tid(self):
-        get_inventory_uhfreader18 = ReaderCommand(G2_TAG_INVENTORY, data=[4, 2])
+        get_inventory_uhfreader18 = ReaderCommand(G2_TAG_INVENTORY, data=[0, 6])
 
         transport = self.open_port()
         if transport is None:
