@@ -89,7 +89,7 @@
         <translation>Rajtszám olvasása</translation>
     </message>
     <message>
-        <location filename="../views/entrypickup/entrypickup.ui" line="55"/>
+        <location filename="../views/entrypickup/entrypickup.ui" line="120"/>
         <source>Entry pickup</source>
         <translation>Rajtszám kiadása</translation>
     </message>
@@ -114,7 +114,7 @@
         <translation>Keresztnév</translation>
     </message>
     <message>
-        <location filename="../views/entrypickup/entrypickup.ui" line="252"/>
+        <location filename="../views/entrypickup/entrypickup.ui" line="300"/>
         <source>Picked up</source>
         <translation>Rajtszám állapota</translation>
     </message>
@@ -129,7 +129,7 @@
         <translation>Táv</translation>
     </message>
     <message>
-        <location filename="../views/entrypickup/entrypickup.ui" line="354"/>
+        <location filename="../views/entrypickup/entrypickup.ui" line="147"/>
         <source>Entry pickdown</source>
         <translation>Rajtszám visszavétele</translation>
     </message>
@@ -169,7 +169,7 @@
         <translation>Nevező mentése</translation>
     </message>
     <message>
-        <location filename="../views/entrypickup/entrypickup.ui" line="58"/>
+        <location filename="../views/entrypickup/entrypickup.ui" line="123"/>
         <source>Ctrl+A</source>
         <translation></translation>
     </message>
@@ -413,55 +413,61 @@
         <translation>Nevező kezelés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="48"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="41"/>
         <source>Add local entry</source>
         <translation>Helyszíni nevezés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="66"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="59"/>
         <source>start num pickup</source>
         <translation>Rajtszám kiadás</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="84"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="77"/>
         <source>Chip controll</source>
         <translation>Csip kontroll</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="102"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="95"/>
         <source>show results</source>
         <translation>Eredmény kijelző</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="138"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="143"/>
         <source>show RFID</source>
         <translation>RFID megjelenítés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="177"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="182"/>
         <source>Preentrys</source>
         <translation>Előnevezők csipezése</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="195"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="200"/>
         <source>Settings</source>
         <translation>Beállítások</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="205"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="211"/>
         <source>E&amp;xit</source>
         <translation>&amp;Kilépés</translation>
     </message>
     <message>
-        <location filename="../views/mainwindow/mainwindow.ui" line="120"/>
+        <location filename="../views/mainwindow/mainwindow.ui" line="125"/>
         <source>show in the boxes</source>
         <translation>Dozozban maradtak</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="107"/>
+        <source>send result</source>
+        <translatorcomment>Eredmény beküldése</translatorcomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>models</name>
     <message>
-        <location filename="../models/AgegroupModel.py" line="16"/>
+        <location filename="../models/AgegroupModel.py" line="18"/>
         <source>Server error</source>
         <translation>Szerver hiba</translation>
     </message>
