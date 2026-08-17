@@ -105,9 +105,11 @@ class RemoteApiModel(object):
         #     self.error = "Connection error"
         except IOError:
             self.error = "IO error"
+            return None
         except json.JSONDecodeError:
             self.error = "Server error"
             self.status_code = 451
+            return None
         return response
 
     # def __sendRequest(self, mode, link, params):
