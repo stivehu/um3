@@ -32,10 +32,10 @@ class Chafonrfid(object):
 
         transport.write(get_inventory_uhfreader18.serialize())
         inventory_status = None
+        result = []
         while inventory_status is None or inventory_status == G2_TAG_INVENTORY_STATUS_MORE_FRAMES:
             g2_response = G2InventoryResponseFrame18(transport.read_frame())
             inventory_status = g2_response.result_status
-            result = []
             for tag in g2_response.get_tag():
                 result.append(tag.epc.hex())
         transport.close()
