@@ -87,14 +87,16 @@ class SettingsModel(object):
         return self
 
     def get_entry_site_username(self):
-        return self.__config['DEFAULT']['EntrySiteUsername']
+        value = self.__config['DEFAULT']['EntrySiteUsername']
+        return False if value == 'False' else value
 
     def set_entry_site_username(self, value):
         self.__config['DEFAULT']['EntrySiteUsername'] = value
         return self
 
     def get_entry_site_password(self):
-        return self.__config['DEFAULT']['EntrySitePassword']
+        value = self.__config['DEFAULT']['EntrySitePassword']
+        return False if value == 'False' else value
 
     def set_entry_site_password(self, value):
         self.__config['DEFAULT']['EntrySitePassword'] = value

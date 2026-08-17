@@ -79,6 +79,26 @@ def test_save_config():
     __remove_conf()
 
 
+def test_get_entry_site_username_default_is_bool_false():
+    settings = SettingsModel()
+    assert settings.get_entry_site_username() == False
+    __remove_conf()
+
+
+def test_get_entry_site_password_default_is_bool_false():
+    settings = SettingsModel()
+    assert settings.get_entry_site_password() == False
+    __remove_conf()
+
+
+def test_entry_site_username_setter_getter_roundtrip():
+    settings = SettingsModel()
+    settings.set_entry_site_username("racer1").set_entry_site_password("secret")
+    assert settings.get_entry_site_username() == "racer1"
+    assert settings.get_entry_site_password() == "secret"
+    __remove_conf()
+
+
 def __remove_conf():
     try:
         os.remove('um.conf')
