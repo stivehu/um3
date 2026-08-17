@@ -1,5 +1,5 @@
 import pyperclip
-from PyQt5 import QtWidgets
+from PyQt6 import QtWidgets
 
 from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.controller.ChipControllWindow import ChipControllWindow

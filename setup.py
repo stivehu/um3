@@ -31,7 +31,7 @@ if get_qt_plugins_paths:
         # "wayland-graphics-integration-server",
         "wayland-shell-integration",
     ):
-        include_files += get_qt_plugins_paths("PyQt5", plugin_name)
+        include_files += get_qt_plugins_paths("PyQt6", plugin_name)
         print (include_files)
 include_files = [
     (os.path.join(os.path.dirname(sys.executable), 'Library', 'plugins'), 'plugins')

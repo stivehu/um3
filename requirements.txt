@@ -11,8 +11,8 @@ pep517
 pip-chill
 pygments
 pyperclip
-pyqt5-stubs
-pyqtwebengine
+PyQt6-stubs
+PyQt6-WebEngine
 pyserial
 pytest-cov
 pytest-mock
@@ -20,7 +20,7 @@ pytest-qt
 qtbot
 requests
 # huey>=2.4
-# PyQt5~=5.15.5
+# PyQt6~=6.11.0
 # pyserial==3.4
 # requests~=2.26.0
 # pyperclip~=1.8.2

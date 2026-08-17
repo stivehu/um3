@@ -1,7 +1,7 @@
 import os
 import sys
 
-from PyQt5 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore
 
 from src.controller.ApplicationWindow import ApplicationWindow
 
@@ -29,7 +29,7 @@ def main():
 
     application = ApplicationWindow()
     application.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 if __name__ == '__main__':

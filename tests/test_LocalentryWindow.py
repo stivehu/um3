@@ -1,7 +1,7 @@
 import pytest, pytest_mock
 
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QMessageBox
+from PyQt6 import QtCore
+from PyQt6.QtWidgets import QMessageBox
 
 import src.models.EnrtyModel
 from src.chafonrfid.Chafonrfid import Chafonrfid
@@ -15,7 +15,7 @@ from tests.fixtures.jsons import entry_save_result, distances
 def test_resize_text(qtbot, mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.resize(640, 480)
     widget.localentry.resize(320, 240)
     widget.localentry.resize(160, 80)
@@ -24,24 +24,24 @@ def test_resize_text(qtbot, mocker):
 def test_close_event(qtbot, mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.close()
 
 
 def test_action_read_rfid_push_button(qtbot, mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value="GENATED_RFID")
-    qtbot.mouseClick(widget.localentry.ui.readRfidPushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.localentry.ui.readRfidPushButton, QtCore.Qt.MouseButton.LeftButton)
     assert widget.localentry.ui.rfidLineEdit.text() == 'GENATED_RFID'
 
 
 def test_action_new_push_button(qtbot,mocker):
     widget = ApplicationWindow()
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
-    mocker.patch('PyQt5.QtWidgets.QMessageBox.exec', return_value=QMessageBox.Ok)
-    qtbot.mouseClick(widget.localentry.ui.newPushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
+    mocker.patch('PyQt6.QtWidgets.QMessageBox.exec', return_value=QMessageBox.StandardButton.Ok)
+    qtbot.mouseClick(widget.localentry.ui.newPushButton, QtCore.Qt.MouseButton.LeftButton)
     all_field_is_empty(widget)
 
 
@@ -72,7 +72,7 @@ def test_get_items():
 def test_birthday_change(qtbot,mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(1978, 2, 8), QtCore.QTime(0, 0, 0)))
     assert widget.localentry.ui.agegroupComboBox.currentIndex() == 5
     young_birth_year = QtCore.QDate.currentDate().year() - 3
@@ -83,7 +83,7 @@ def test_birthday_change(qtbot,mocker):
 def test_action_save_push_button(qtbot,mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.ui.startnumLineEdit.setText("100")
     widget.localentry.ui.distanceComboBox.setCurrentIndex(2)
     widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(1978, 2, 8), QtCore.QTime(0, 0, 0)))
@@ -94,7 +94,7 @@ def test_action_save_push_button(qtbot,mocker):
     widget.localentry.ui.rfidLineEdit.setText('ABG3652AE')
     mocker.patch('src.models.EnrtyModel.EntryModel.create_new_entry', return_value=entry_save_result)
     sent_data = widget.localentry.get_entry_field()
-    qtbot.mouseClick(widget.localentry.ui.savePushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.localentry.ui.savePushButton, QtCore.Qt.MouseButton.LeftButton)
     result = widget.localentry.newentry
     assert result == sent_data
 
@@ -114,7 +114,7 @@ def all_field_is_empty(widget):
 def test_check_dependies_keeps_invalid_combobox_highlighted(qtbot, mocker):
     widget = ApplicationWindow()
     mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.ui.startnumLineEdit.setText("100")
     widget.localentry.ui.lastnameLineEdit.setText('Teszt')
     widget.localentry.ui.firstnameLineEdit.setText('Elek')
@@ -130,6 +130,6 @@ def test_check_dependies_keeps_invalid_combobox_highlighted(qtbot, mocker):
 
 def test_clean_fields(qtbot):
     widget = ApplicationWindow()
-    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     widget.localentry.cleanFields()
     all_field_is_empty(widget)

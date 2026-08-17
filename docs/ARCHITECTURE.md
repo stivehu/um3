@@ -2,8 +2,7 @@
 
 Tömör, kereshető térkép a kódbázishoz. Célja, hogy egy új feladat előtt gyorsan
 eldönthető legyen, melyik fájlban van a releváns logika — nem helyettesíti a
-forráskód elolvasását. Az ökoszisztéma szintű (más repók) kontextusért lásd a
-gyökér `CLAUDE.md`-t.
+forráskód elolvasását. 
 
 ## Belépési pont és adatfolyam
 
@@ -127,7 +126,9 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
    definiál, eltérő byte-elrendezéssel; `Chafonrfid.py` jelenleg csak a
    18-as verziót importálja és használja.
 4. A generált `Ui_*` fájlokat (`src/views/*/*.py`) soha ne kézzel szerkeszd —
-   mindig `pyuic5`-ből generáld újra (lásd gyökér `CLAUDE.md` Commands).
+   mindig `pyuic6`-ból generáld újra. A repó
+   PyQt6-ra migrált (korábban PyQt5), a `Qt.*`-szerű enumok mind scope-olt
+   formában (`Qt.ItemDataRole.DisplayRole` stb.) használandók.
 5. `src/Timesync/` saját beágyazott `.git`/`.idea`-t tartalmaz, nem valódi git
    submodule (nincs `.gitmodules`) — a szülő repóban egy blokként jelenik meg
    "modified content"-ként `git status`-ban.

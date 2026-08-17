@@ -1,5 +1,5 @@
 import pytest,pytest_mock
-from PyQt5 import QtCore
+from PyQt6 import QtCore
 
 from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.controller.ApplicationWindow import ApplicationWindow
@@ -8,7 +8,7 @@ from src.controller.ApplicationWindow import ApplicationWindow
 def test_action_entry_pickup_push_button(qtbot):
     widget = ApplicationWindow()
     
-    qtbot.mouseClick(widget.ui.entryPickupPushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.entryPickupPushButton, QtCore.Qt.MouseButton.LeftButton)
     assert widget.isHidden() == True
 
 
@@ -16,7 +16,7 @@ def test_application_window(qtbot,mocker):
     mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value="ABCDEFGIJKLMOPQ")
     widget = ApplicationWindow()
     
-    qtbot.mouseClick(widget.ui.rfidPushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.rfidPushButton, QtCore.Qt.MouseButton.LeftButton)
     assert widget.ui.rfidLineEdit.text() == "ABCDEFGIJKLMOPQ"
 
 
@@ -24,7 +24,7 @@ def test_action_rfid_push_button_no_chip(qtbot, mocker):
     mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value=None)
     widget = ApplicationWindow()
 
-    qtbot.mouseClick(widget.ui.rfidPushButton, QtCore.Qt.LeftButton)
+    qtbot.mouseClick(widget.ui.rfidPushButton, QtCore.Qt.MouseButton.LeftButton)
     assert widget.ui.rfidLineEdit.text() == ""
 
 

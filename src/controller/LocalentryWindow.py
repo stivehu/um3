@@ -1,6 +1,6 @@
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.AgegroupModel import AgegroupModel
@@ -171,11 +171,11 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def actionNewPushButton(self):
         _translate = QCoreApplication.translate
         confirmDialog = QMessageBox()
-        confirmDialog.setIcon(QMessageBox.Information)
+        confirmDialog.setIcon(QMessageBox.Icon.Information)
         confirmDialog.setText(_translate("Form", "Are you sure? This page will be destroyed"))
         confirmDialog.setWindowTitle(_translate("Form", "Create new entry"))
-        confirmDialog.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
-        if confirmDialog.exec() == QMessageBox.Ok:
+        confirmDialog.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
+        if confirmDialog.exec() == QMessageBox.StandardButton.Ok:
             self.cleanFields()
 
     def actionReadRfidPushButton(self):

@@ -1,6 +1,6 @@
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+from PyQt6.QtCore import *
+from PyQt6.QtGui import *
+from PyQt6.QtWidgets import *
 
 from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.AgegroupModel import AgegroupModel
@@ -179,7 +179,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         else:
             brush = QBrush(QColor(0, 255, 0))
         palette = QPalette()
-        palette.setBrush(QPalette.Active, QPalette.Button, brush)
+        palette.setBrush(QPalette.ColorGroup.Active, QPalette.ColorRole.Button, brush)
         self.ui.loginpushButton.setPalette(palette)
 
     def actionStartnumHeaderlineEdit(self):

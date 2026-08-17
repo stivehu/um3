@@ -10,7 +10,7 @@ translate-create-pro:
 
 translate-update:
 #	lupdate . -ts messages/hu_HU.ts -no-obsolete
-#	pylupdate5 messages/translate.pro
-	pyside2-lupdate -verbose messages/translate.pro
+#	pyside2-lupdate -verbose messages/translate.pro
+	pylupdate6 messages/translate.pro
 translate-lrelease:
 	lrelease messages/hu_HU.ts

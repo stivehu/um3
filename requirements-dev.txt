@@ -11,8 +11,8 @@ pep517
 pip-chill
 pygments
 pyperclip
-pyqt5-stubs
-pyqtwebengine
+PyQt6-stubs
+PyQt6-WebEngine
 pyserial
 pytest-cov
 pytest-mock

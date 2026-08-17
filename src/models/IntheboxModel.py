@@ -1,5 +1,5 @@
-from PyQt5 import QtCore
-from PyQt5.QtCore import Qt
+from PyQt6 import QtCore
+from PyQt6.QtCore import Qt
 
 from src.models.RemoteApiModel import RemoteApiModel
 
@@ -52,7 +52,7 @@ class IntheboxModel(QtCore.QAbstractTableModel):
         return sum(len(x) for x in self._data)
 
     def data(self, index, role):
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
             try:
                 return self._data[index.row()][index.column()]
             except IndexError as e:

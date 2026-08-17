@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import (QDialog)
+from PyQt6.QtWidgets import (QDialog)
 
 from src.controller.WindowMixin import ResizeFontMixin
 from src.models.SettingsModel import SettingsModel
