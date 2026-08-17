@@ -1,0 +1,46 @@
+name: Build Windows executable
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        # requirements.txt is not used as-is: PyQt5 is commented out there
+        # (see CLAUDE.md) and buildozer (Android tooling, also listed there)
+        # does not install on Windows. Install only what the build needs.
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyQt5 pyserial requests beautifulsoup4 huey pyperclip cx_freeze
+
+      - name: Build executable
+        run: python setup.py build
+
+      - name: Build MSI installer
+        run: python setup.py bdist_msi
+
+      - name: Upload MSI installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: um3-installer
+          path: dist/*.msi
+
+      - name: Upload raw build output
+        uses: actions/upload-artifact@v4
+        with:
+          name: um3-build
+          path: build/
