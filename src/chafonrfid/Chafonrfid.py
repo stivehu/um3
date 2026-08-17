@@ -30,15 +30,21 @@ class Chafonrfid(object):
 
         runner = CommandRunner(transport)
 
-        transport.write(get_inventory_uhfreader18.serialize())
-        inventory_status = None
-        result = []
-        while inventory_status is None or inventory_status == G2_TAG_INVENTORY_STATUS_MORE_FRAMES:
-            g2_response = G2InventoryResponseFrame18(transport.read_frame())
-            inventory_status = g2_response.result_status
-            for tag in g2_response.get_tag():
-                result.append(tag.epc.hex())
-        transport.close()
+        try:
+            transport.write(get_inventory_uhfreader18.serialize())
+            inventory_status = None
+            result = []
+            while inventory_status is None or inventory_status == G2_TAG_INVENTORY_STATUS_MORE_FRAMES:
+                g2_response = G2InventoryResponseFrame18(transport.read_frame())
+                inventory_status = g2_response.result_status
+                for tag in g2_response.get_tag():
+                    result.append(tag.epc.hex())
+        except TimeoutError:
+            self.error = "olvasási hiba"
+            return None
+        finally:
+            transport.close()
+
         if len(result) == 1:
             return result[0].upper()
         elif len(result) > 1:

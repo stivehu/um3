@@ -24,6 +24,8 @@ class BaseTransport(object):
 
     def read_frame(self):
         length_bytes = self.read_bytes(1)
+        if not length_bytes:
+            raise TimeoutError('Nem érkezett válasz a soros porton (timeout)')
         frame_length = length_bytes[0]
         data = length_bytes + self.read_bytes(frame_length)
         return bytearray(data)

@@ -36,6 +36,12 @@ def test_reader_frame_bad_checksum():
         assert ReaderResponseFrame(runner.run(get_reader_info))
 
 
+def test_read_frame_timeout_raises_timeout_error():
+    transport = MockTransport(bytearray())
+    with pytest.raises(TimeoutError):
+        transport.read_frame()
+
+
 # def test_command_runner_bad_return_command():
 #     transport = MockTransport(bytearray.fromhex(RESP_TAGS_BAD_RETURN_COMMAND))
 #     get_reader_info = ReaderCommand(G2_TAG_INVENTORY)
