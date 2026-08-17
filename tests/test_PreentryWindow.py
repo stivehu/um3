@@ -20,6 +20,15 @@ def test_resize_text(qtbot):
     widget.preentry.resize(160, 80)
 
 
+def test_resize_text_with_auto_resize_enabled(qtbot, mocker):
+    mocker.patch('src.models.SettingsModel.SettingsModel.get_auto_resize_window', return_value=True)
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.LeftButton)
+    widget.preentry.resize(640, 480)
+    widget.preentry.resize(320, 240)
+    widget.preentry.resize(160, 80)
+
+
 def test_close_event(qtbot):
     widget = ApplicationWindow()
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.LeftButton)

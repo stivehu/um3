@@ -25,6 +25,7 @@ class PreentryWindow(QDialog):
         self.__entryModel = EntryModel()
         self.__settings = SettingsModel()
         self.__init_entry_site_url()
+        self.__init_widget_dict()
         self.initResize()
         self.maximizeWindow()
         self.try_auto_login()
@@ -41,6 +42,34 @@ class PreentryWindow(QDialog):
 
     def __init_entry_site_url(self):
         self.ui.urllineEdit.setText(self.__settings.get_entry_site_url())
+
+    def __init_widget_dict(self):
+        self.__widget_dict = {'labels': {}, 'lineEdits': {}, 'pushButtons': {}}
+        self.__widget_dict['labels']["startnum"] = self.ui.label
+        self.__widget_dict['labels']["distance"] = self.ui.distancelabel
+        self.__widget_dict['labels']["rfid"] = self.ui.rfidLabel
+        self.__widget_dict['labels']["lastname"] = self.ui.lastnamelabel
+        self.__widget_dict['labels']["firstname"] = self.ui.firstnamelabel
+        self.__widget_dict['labels']["status"] = self.ui.statusBar
+
+        self.__widget_dict['lineEdits']["url"] = self.ui.urllineEdit
+        self.__widget_dict['lineEdits']["username"] = self.ui.usernamelineEdit
+        self.__widget_dict['lineEdits']["password"] = self.ui.passwordlineEdit
+        self.__widget_dict['lineEdits']["lastname"] = self.ui.lastnamelineEdit
+        self.__widget_dict['lineEdits']["rfid"] = self.ui.rfidlineEdit
+        self.__widget_dict['lineEdits']["startnum"] = self.ui.startnumlineEdit
+        self.__widget_dict['lineEdits']["firstname"] = self.ui.firstnamelineEdit
+        self.__widget_dict['lineEdits']["distance"] = self.ui.distancelineEdit
+        self.__widget_dict['lineEdits']["startnumHeader"] = self.ui.startnumHeaderlineEdit
+        self.__widget_dict['lineEdits']["rfidHeader"] = self.ui.rfidHeaderlineEdit
+
+        self.__widget_dict['pushButtons']["login"] = self.ui.loginpushButton
+        self.__widget_dict['pushButtons']["read"] = self.ui.readpushButton
+        self.__widget_dict['pushButtons']["prev"] = self.ui.prevpushButton
+        self.__widget_dict['pushButtons']["next"] = self.ui.nextpushButton
+        self.__widget_dict['pushButtons']["insert"] = self.ui.insertpushButton
+        self.__widget_dict['pushButtons']["save"] = self.ui.savepushButton
+        self.__widget_dict['pushButtons']["insertSaveNext"] = self.ui.insertSaveNextpushButton
 
     def connectSignalsSlots(self):
         self.ui.prevpushButton.clicked.connect(self.actionPrevButton)
@@ -183,7 +212,7 @@ class PreentryWindow(QDialog):
 
     def initResize(self):
         if self.__settings.get_auto_resize_window():
-            self.ui.startNumLabel.resizeEvent = self.resizeText
+            self.ui.label.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         defaultSize = 14
