@@ -22,3 +22,9 @@ def test_list(mocker):
     intheboxmodel.list()
     assert intheboxmodel._data == result
     assert intheboxmodel.count_all_record() == 20
+
+
+def test_init_keeps_server_error_from_initial_list(mocker):
+    mocker.patch('src.models.AgegroupModel.RemoteApiModel.sendAjaxRequest', return_value=None)
+    intheboxmodel = IntheboxModel()
+    assert intheboxmodel.error == 'Server error'

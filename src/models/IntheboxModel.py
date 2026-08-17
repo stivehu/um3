@@ -10,9 +10,9 @@ class IntheboxModel(QtCore.QAbstractTableModel):
         self.__remoteApi = RemoteApiModel()
         self.__insert_pos = None
         self.__new_item = -1
+        self.error = ''
         self.list()
         self.__rfid = None
-        self.error = ''
 
 
     def set_inserting_item(self, value=-1):
