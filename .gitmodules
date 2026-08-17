@@ -1,0 +1,3 @@
+[submodule "src/Timesync"]
+	path = src/Timesync
+	url = https://github.com/stivehu/Timesync.git
