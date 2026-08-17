@@ -1,14 +1,13 @@
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDialog
 
-from src.chafonrfid.Chafonrfid import Chafonrfid
+from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.EntrypickupModel import EntrypickupModel
 from src.models.MyJson import MyJson
 from src.models.SettingsModel import SettingsModel
 from src.views.entrypickup.entrypickup import Ui_Form
 
 
-class EntrypickupWindow(QDialog):
+class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def __init__(self, parent=None):
         super(EntrypickupWindow, self).__init__(parent)
         self.ui = Ui_Form()
@@ -125,11 +124,7 @@ class EntrypickupWindow(QDialog):
             self.ui.statusBar.resizeEvent = self.resizeText
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 40 > defaultSize:
-            font = QFont('', self.rect().width() // 40)
-        else:
-            font = QFont('', defaultSize)
+        font = self._resizeFont()
         self.ui.readRfidPushButton.setFont(font)
         self.ui.entryPickupPushButton.setFont(font)
         self.ui.startnumLineEdit.setFont(font)
@@ -150,12 +145,7 @@ class EntrypickupWindow(QDialog):
         self.ui.statusBar.setFont(font)
 
     def readRfid(self):
-        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-        self.__rfid = __chafonrfid.get_tid()
-        if __chafonrfid.error is not None:
-            self.ui.statusBar.setText(__chafonrfid.error)
-        else:
-            self.ui.statusBar.setText(None)
+        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
 
     def closeEvent(self, event):
         self.parent().show()

@@ -2,7 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from src.chafonrfid.Chafonrfid import Chafonrfid
+from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.AgegroupModel import AgegroupModel
 from src.models.DistanceModel import DistanceModel
 from src.models.EnrtyModel import EntryModel
@@ -13,7 +13,7 @@ from src.views.preentry.preentry import Ui_PreentryForm
 from datetime import datetime
 
 
-class PreentryWindow(QDialog):
+class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def __init__(self, parent=None):
         super(PreentryWindow, self).__init__(parent)
         self.ui = Ui_PreentryForm()
@@ -215,12 +215,7 @@ class PreentryWindow(QDialog):
             self.ui.label.resizeEvent = self.resizeText
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 40 > defaultSize:
-            font = QFont('', self.rect().width() // 40)
-        else:
-            font = QFont('', defaultSize)
-
+        font = self._resizeFont()
         for widgetTypes in self.__widget_dict.values():
             for widget in widgetTypes.values():
                 widget.setFont(font)
@@ -232,10 +227,7 @@ class PreentryWindow(QDialog):
 
     def readRfid(self):
         try:
-            __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-            self.__rfid = __chafonrfid.get_tid()
-            if __chafonrfid.error is not None:
-                self.ui.statusBar.setText(__chafonrfid.error)
+            self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
         except Exception:
             self.ui.statusBar.setText(QCoreApplication.translate("Form", "rfid reader connect error"))
             self.__rfid = None

@@ -12,22 +12,25 @@ from src.models.RemoteApiModel import RemoteApiModel
 from tests.fixtures.jsons import entry_save_result, distances
 
 
-def test_resize_text(qtbot):
+def test_resize_text(qtbot, mocker):
     widget = ApplicationWindow()
+    mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
     widget.localentry.resize(640, 480)
     widget.localentry.resize(320, 240)
     widget.localentry.resize(160, 80)
 
 
-def test_close_event(qtbot):
+def test_close_event(qtbot, mocker):
     widget = ApplicationWindow()
+    mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
     widget.localentry.close()
 
 
 def test_action_read_rfid_push_button(qtbot, mocker):
     widget = ApplicationWindow()
+    mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
     mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value="GENATED_RFID")
     qtbot.mouseClick(widget.localentry.ui.readRfidPushButton, QtCore.Qt.LeftButton)

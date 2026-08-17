@@ -33,6 +33,13 @@ Egy fájl = egy képernyő. Közös minta: `Ui_*` betöltése `setupUi`-val,
 `SettingsModel` az ablak méretezéséhez/maximalizálásához, `closeEvent`
 visszaadja a szülő ablakot.
 
+- `WindowMixin` — a controllerek közötti `readRfid`/`resizeText` duplikációt
+  kiváltó mixinek, a legtöbb ablak-controller ezt örökli
+  - `RfidReaderMixin._readTid(self, comm_port, set_status)` — `Chafonrfid`
+    létrehozása, `get_tid()`, hibaüzenet/törlés a megadott `set_status`
+    callback-en (pl. `label.setText` vagy `statusbar.showMessage`) keresztül
+  - `ResizeFontMixin._resizeFont(self, divisor=40, default_size=14)` — az
+    ablak méretezéséhez a betűméretet számoló közös logika
 - `ApplicationWindow` — fő hub, megnyitja az almenüket
   - `readRfid(self)` — TID olvasás, vágólapra másolás, hiba a státuszsorba
   - `actionTimesync(self)` — `TimeClient` hívása, szerveridő lekérdezés/szinkron

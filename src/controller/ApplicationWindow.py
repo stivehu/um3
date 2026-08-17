@@ -1,6 +1,5 @@
 import pyperclip
 from PyQt5 import QtWidgets
-from PyQt5.QtGui import QFont
 
 from src.chafonrfid.Chafonrfid import Chafonrfid
 from src.controller.ChipControllWindow import ChipControllWindow
@@ -10,11 +9,12 @@ from src.controller.PreentryWindow import PreentryWindow
 from src.controller.SendresultWindow import SendresultWindow
 from src.controller.SettingsWindow import SettingsWindow
 from src.controller.ShowInTheBoxesWindow import ShowInTheBoxesWindow
+from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.SettingsModel import SettingsModel
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
 
 
-class ApplicationWindow(QtWidgets.QMainWindow):
+class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin):
     def __init__(self):
         super(ApplicationWindow, self).__init__()
 
@@ -61,11 +61,7 @@ class ApplicationWindow(QtWidgets.QMainWindow):
             self.ui.settingPushButton.resizeEvent = self.resizeText
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 14 > defaultSize:
-            font = QFont('', self.rect().width() // 14)
-        else:
-            font = QFont('', defaultSize)
+        font = self._resizeFont(divisor=14)
         self.ui.localEntrypushButton.setFont(font)
         self.ui.entryPickupPushButton.setFont(font)
         self.ui.chipControllPushButton.setFont(font)
@@ -117,14 +113,9 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def readRfid(self):
         self.__settings = SettingsModel()
-        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-        self.__rfid = __chafonrfid.get_tid()
+        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusbar.showMessage)
         if isinstance(self.__rfid, str):
             pyperclip.copy(self.__rfid)
-        if __chafonrfid.error is not None:
-            self.ui.statusbar.showMessage(__chafonrfid.error)
-        else:
-            self.ui.statusbar.showMessage(None)
 
     def closeEvent(self, event):
         exit()

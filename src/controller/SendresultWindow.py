@@ -1,15 +1,14 @@
 from PyQt5.QtCore import QTimer
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QDialog)
 
-from src.chafonrfid.Chafonrfid import Chafonrfid
+from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.EntrypickupModel import EntrypickupModel
 from src.models.MyJson import MyJson
 from src.models.SettingsModel import SettingsModel
 from src.views.sendresult.sendresult import Ui_sendresultForm
 
 
-class SendresultWindow(QDialog):
+class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def __init__(self, parent=None):
         super(SendresultWindow, self).__init__(parent)
         self.ui = Ui_sendresultForm()
@@ -32,11 +31,7 @@ class SendresultWindow(QDialog):
             self.showMaximized()
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 40 > defaultSize:
-            font = QFont('', self.rect().width() // 40)
-        else:
-            font = QFont('', defaultSize)
+        font = self._resizeFont()
         self.ui.startnumLineEdit.setFont(font)
         self.ui.startNumLabel.setFont(font)
         self.ui.firstnameLabel.setFont(font)
@@ -76,12 +71,7 @@ class SendresultWindow(QDialog):
         self.ui.timestampLineEdit.setText(entry['timestamp'])
 
     def readRfid(self):
-        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-        self.__rfid = __chafonrfid.get_tid()
-        if __chafonrfid.error is not None:
-            self.ui.statusBar.setText(__chafonrfid.error)
-        else:
-            self.ui.statusBar.setText(None)
+        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
 
     def closeEvent(self, event):
         self.timer.stop()

@@ -2,7 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
-from src.chafonrfid.Chafonrfid import Chafonrfid
+from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.AgegroupModel import AgegroupModel
 from src.models.DistanceModel import DistanceModel
 from src.models.EnrtyModel import EntryModel
@@ -12,7 +12,7 @@ from src.models.SettingsModel import SettingsModel
 from src.views.localentry.localentry import Ui_Form
 
 
-class LocalentryWindow(QDialog):
+class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def __init__(self, parent=None):
         super(LocalentryWindow, self).__init__(parent)
         self.ui = Ui_Form()
@@ -194,23 +194,13 @@ class LocalentryWindow(QDialog):
             self.ui.startNumLabel.resizeEvent = self.resizeText
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 40 > defaultSize:
-            font = QFont('', self.rect().width() // 40)
-        else:
-            font = QFont('', defaultSize)
-
+        font = self._resizeFont()
         for widgetTypes in self.__widget_dict.values():
             for widget in widgetTypes.values():
                 widget.setFont(font)
 
     def readRfid(self):
-        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-        self.__rfid = __chafonrfid.get_tid()
-        if __chafonrfid.error is not None:
-            self.ui.statusBarLabel.setText(__chafonrfid.error)
-        else:
-            self.ui.statusBarLabel.setText(None)
+        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBarLabel.setText)
 
     def closeEvent(self, event):
         self.parent().show()

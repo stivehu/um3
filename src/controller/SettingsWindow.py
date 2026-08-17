@@ -1,11 +1,11 @@
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QDialog)
 
+from src.controller.WindowMixin import ResizeFontMixin
 from src.models.SettingsModel import SettingsModel
 from src.views.settings.settings import Ui_Form
 
 
-class SettingsWindow(QDialog):
+class SettingsWindow(QDialog, ResizeFontMixin):
     def __init__(self, parent=None):
         super(SettingsWindow, self).__init__(parent)
         self.ui = Ui_Form()
@@ -53,11 +53,7 @@ class SettingsWindow(QDialog):
             self.showMaximized()
 
     def resizeText(self, event):
-        defaultSize = 14
-        if self.rect().width() // 40 > defaultSize:
-            font = QFont('', self.rect().width() // 40)
-        else:
-            font = QFont('', defaultSize)
+        font = self._resizeFont()
         self.ui.serverIpLineEdit.setFont(font)
         self.ui.serverIpLabel.setFont(font)
         self.ui.chipcontrollIntervalLineEdit.setFont(font)
