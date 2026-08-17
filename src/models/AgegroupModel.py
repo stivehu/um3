@@ -57,6 +57,11 @@ class AgegroupModel(object):
 
     def get_agegroup_from_age(self, age: int):
         for agegroup in self.__agegroups:
-            if int(agegroup['minage']) <= age <= int(agegroup['maxage']):
-                return agegroup['id']
+            minage = agegroup['minage']
+            maxage = agegroup['maxage']
+            if minage is not None and age < int(minage):
+                continue
+            if maxage is not None and age > int(maxage):
+                continue
+            return agegroup['id']
         return None

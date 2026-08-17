@@ -36,6 +36,27 @@ def test_agegroup_model(mocker):
     assert agegroupModel.get_agegroup_from_age(-2) == None
 
 
+def test_agegroup_model_with_none_minage(mocker):
+    open_agegroup = distances + [
+        {"id": 11, "name": "Gyerek", "groupedheader_id": 2, "minage": None, "maxage": 6, "sortid": 0}]
+    mocker.patch('src.models.AgegroupModel.RemoteApiModel.sendAjaxRequest', return_value=open_agegroup)
+    agegroupModel = AgegroupModel()
+    assert agegroupModel.get_agegroup_from_age(42) == 7
+    assert agegroupModel.get_agegroup_from_age(0) == 11
+    assert agegroupModel.get_agegroup_from_age(6) == 11
+    assert agegroupModel.get_agegroup_from_age(7) == 2
+
+
+def test_agegroup_model_with_none_maxage(mocker):
+    open_agegroup = distances + [
+        {"id": 11, "name": "Szenior", "groupedheader_id": 2, "minage": 62, "maxage": None, "sortid": 9}]
+    mocker.patch('src.models.AgegroupModel.RemoteApiModel.sendAjaxRequest', return_value=open_agegroup)
+    agegroupModel = AgegroupModel()
+    assert agegroupModel.get_agegroup_from_age(42) == 7
+    assert agegroupModel.get_agegroup_from_age(61) == 9
+    assert agegroupModel.get_agegroup_from_age(200) == 11
+
+
 def test_get_agegroup_index(mocker):
 
     mocker.patch('src.models.AgegroupModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
