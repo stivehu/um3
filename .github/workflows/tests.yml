@@ -8,9 +8,7 @@ on:
 
 jobs:
   pytest:
-    runs-on: ubuntu-latest
-    env:
-      QT_QPA_PLATFORM: offscreen
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
