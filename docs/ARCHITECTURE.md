@@ -11,7 +11,8 @@ forráskód elolvasását.
 - `ApplicationWindow` a fő hub: minden `action*PushButton` metódusa elrejti
   magát és megnyit egy gyerek `QDialog`-ot (`LocalentryWindow`,
   `EntrypickupWindow`, `ChipControllWindow`, `PreentryWindow`,
-  `SendresultWindow`, `SettingsWindow`, `ShowInTheBoxesWindow`). A gyerek
+  `SendresultWindow`, `SettingsWindow`, `ShowInTheBoxesWindow`,
+  `ShowResultWindow`). A gyerek
   ablak `closeEvent`-je mindig visszahívja a szülő `.show()`-ját.
 - **RFID olvasás adatfolyam:** controller → `Chafonrfid.get_tid()` →
   `chafonrfid.base.CommandRunner` + `ReaderCommand` a soros porton
@@ -64,6 +65,13 @@ visszaadja a szülő ablakot.
     rajtszám egy gombnyomásra (insert → save → next láncolás)
 - `SendresultWindow` — RFID leolvasás időbélyeggel eredményküldéshez
   - `scanrfid(self)` — RFID → `EntrypickupModel.create_entry_timestamp_from_rfid()`
+- `ShowResultWindow` — "Eredmény kijelző": beágyazott `QWebEngineView`-ban
+  mutatja a timing szerver publikus eredményoldalait, kioszk-képernyőként
+  - alapból a `/entry/result` (összes futó) oldalt tölti be
+  - `scanrfid(self)` — periodikus RFID olvasás (`ChipControllWindow`-hoz
+    hasonló `QTimer` minta); olvasott chipnél a `/entry/scoreboard?rfid=...`
+    (a beolvasó saját eredménye) oldalra vált, majd
+    `get_chipcontroll_wait_after_read()` ms múlva visszaáll a listára
 - `SettingsWindow` — `um.conf` szerkesztő UI
   - `collectSettings(self)` / `initValues(self)` — UI ↔ `SettingsModel` szinkron
 - `ShowInTheBoxesWindow` — "dobozban" lévő rajtszámok listája/számlálója
@@ -85,6 +93,11 @@ visszaadja a szülő ablakot.
 - `EntrypickupModel` — `get_entry_from_rfid`, `updateEntryPickedUp/Down`,
   `create_entry_timestamp_from_rfid`; `checkFormat(entrydatas) -> bool`
   (statikus) ellenőrzi, hogy a válasz tartalmazza-e a várt kulcsokat
+- `ResultModel` — vékony wrapper `RemoteApiModel.get_result_url()` /
+  `get_scoreboard_url(rfid)` fölött; ezek nem JSON API linkek, hanem a
+  timing szerver publikus HTML oldalait (`/entry/result`,
+  `/entry/scoreboard?rfid=...`) címző URL-ek, amiket a `ShowResultWindow`
+  közvetlenül egy `QWebEngineView`-ba tölt be `sendAjaxRequest` nélkül
 - `IntheboxModel(QAbstractTableModel)` — dobozban lévő rajtszámok
   táblázat-modellje (`startnumTableView`-hoz); `list()` tölti újra a szerverről,
   10 oszloponként tördel
@@ -150,3 +163,10 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
 10. Tesztek a hálózati/soros réteget mockolják (`pytest-mock`,
     `transport.MockTransport`) — új modell/controller teszt írásakor kövesd
     ezt a mintát, ne hívj élő szervert vagy hardvert.
+11. `PyQt6.QtWebEngineWidgets`-et (a `ShowResultWindow`/`showresult.py`
+    használja) a `QApplication` létrehozása ELŐTT kell importálni, különben
+    `ImportError`-t dob induláskor — ez működik magától, amíg a
+    `ShowResultWindow` importja az `ApplicationWindow`-n (és így a
+    `main.py` modulszintű importjain) keresztül fut le a `main()`-ben
+    történő `QApplication(sys.argv)` hívás előtt; ne mozgasd ezt az
+    importot függvényen belülre / ne késleltesd.

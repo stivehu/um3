@@ -51,6 +51,12 @@ class RemoteApiModel(object):
     def get_create_entry_link(self):
         return "http://{server}/api/entry/create".format(server=self.__server)
 
+    def get_result_url(self):
+        return "http://{server}/entry/result".format(server=self.__server)
+
+    def get_scoreboard_url(self, rfid):
+        return "http://{server}/entry/scoreboard?rfid={rfid}".format(server=self.__server, rfid=rfid)
+
     def get_entry_from_startnum(self, startnum):
         return "{server}/api/entry/view-from-startnum?startnum={startnum}".format(
             server=self.__settings.get_entry_site_url(),

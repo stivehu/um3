@@ -7,9 +7,17 @@ from src.controller.ApplicationWindow import ApplicationWindow
 
 def test_action_entry_pickup_push_button(qtbot):
     widget = ApplicationWindow()
-    
+
     qtbot.mouseClick(widget.ui.entryPickupPushButton, QtCore.Qt.MouseButton.LeftButton)
     assert widget.isHidden() == True
+
+
+def test_action_show_result_push_button(qtbot):
+    widget = ApplicationWindow()
+
+    qtbot.mouseClick(widget.ui.showResultPushButton, QtCore.Qt.MouseButton.LeftButton)
+    assert widget.isHidden() == True
+    widget.showResultWindow.close()
 
 
 def test_application_window(qtbot,mocker):

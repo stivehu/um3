@@ -9,6 +9,7 @@ from src.controller.PreentryWindow import PreentryWindow
 from src.controller.SendresultWindow import SendresultWindow
 from src.controller.SettingsWindow import SettingsWindow
 from src.controller.ShowInTheBoxesWindow import ShowInTheBoxesWindow
+from src.controller.ShowResultWindow import ShowResultWindow
 from src.controller.WindowMixin import RfidReaderMixin, ResizeFontMixin
 from src.models.SettingsModel import SettingsModel
 from src.views.mainwindow.mainwindow import Ui_UserMangerUi
@@ -35,6 +36,7 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
         self.ui.inTheBoxesPushButton.clicked.connect(self.actionInTheBoxesPushButton)
         self.ui.preEntryPushButton.clicked.connect(self.actionPreentryPushButton)
         self.ui.sendresultPushButton.clicked.connect(self.actionSendresultPushButton)
+        self.ui.showResultPushButton.clicked.connect(self.actionShowResultPushButton)
         self.ui.timesyncPushButton.clicked.connect(self.actionTimesync)
         self.ui.exitPushButton.clicked.connect(self.close)
 
@@ -43,6 +45,12 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
         self.sendresultWindow = SendresultWindow(self)
         self.sendresultWindow.show()
         self.sendresultWindow.activateWindow()
+
+    def actionShowResultPushButton(self):
+        self.hide()
+        self.showResultWindow = ShowResultWindow(self)
+        self.showResultWindow.show()
+        self.showResultWindow.activateWindow()
 
     def actionInTheBoxesPushButton(self):
         self.hide()

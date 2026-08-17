@@ -31,6 +31,18 @@ def test_get_update_pickeding_url(mocker):
     assert remoteApiModel.get_update_pickeding_url('ABCED', None) == None
 
 
+def test_get_result_url(mocker):
+    mocker.patch('src.models.SettingsModel.SettingsModel.get_server_ip', return_value="192.168.0.115")
+    remoteApiModel = RemoteApiModel()
+    assert remoteApiModel.get_result_url() == 'http://192.168.0.115/entry/result'
+
+
+def test_get_scoreboard_url(mocker):
+    mocker.patch('src.models.SettingsModel.SettingsModel.get_server_ip', return_value="192.168.0.115")
+    remoteApiModel = RemoteApiModel()
+    assert remoteApiModel.get_scoreboard_url('ABCED') == 'http://192.168.0.115/entry/scoreboard?rfid=ABCED'
+
+
 def test_sendAjaxRequest_returns_none_on_json_decode_error(mocker):
     mocker.patch('src.models.SettingsModel.SettingsModel.get_server_ip', return_value="192.168.0.115")
     remoteApiModel = RemoteApiModel()

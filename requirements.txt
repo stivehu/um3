@@ -1,6 +1,7 @@
 beautifulsoup4
 cx-freeze
 PyQt6
+PyQt6-WebEngine
 PyQt6-stubs
 pyperclip
 pyserial
