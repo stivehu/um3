@@ -127,3 +127,4 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         exit()
+

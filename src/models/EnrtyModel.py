@@ -31,6 +31,8 @@ class EntryModel(object):
         return result
 
     def checkentryResult(self, response):
+        if response == None:
+            return False
         if 'response' in response and 'firstname' in response['response'] and 'lastname' in response['response'] and 'distance' in response['response'] :
             return True
         return False
