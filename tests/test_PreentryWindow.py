@@ -60,3 +60,11 @@ def test_action_insert_save_nextpush_button(qtbot, mocker):
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.LeftButton)
     mocker.patch('src.models.EnrtyModel.EntryModel.loginSite', return_value=True)
     qtbot.mouseClick(widget.preentry.ui.nextpushButton, QtCore.Qt.LeftButton)
+
+
+def test_scanrfid_transient_error_does_not_stop_timer(qtbot, mocker):
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.LeftButton)
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', side_effect=Exception('port error'))
+    widget.preentry.scanrfid()
+    assert widget.preentry.timer.isActive()

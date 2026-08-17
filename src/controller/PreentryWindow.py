@@ -225,12 +225,6 @@ class PreentryWindow(QDialog):
             for widget in widgetTypes.values():
                 widget.setFont(font)
 
-    def readRfid(self):
-        __chafonrfid = Chafonrfid(self.__settings.get_comm_port())
-        self.__rfid = __chafonrfid.get_tid()
-        if __chafonrfid.error is not None:
-            self.ui.statusBarLabel.setText(__chafonrfid.error)
-
     def initTimer(self):
         self.timer = QTimer()
         self.timer.timeout.connect(self.scanrfid)
@@ -242,10 +236,9 @@ class PreentryWindow(QDialog):
             self.__rfid = __chafonrfid.get_tid()
             if __chafonrfid.error is not None:
                 self.ui.statusBar.setText(__chafonrfid.error)
-        except:
+        except Exception:
             self.ui.statusBar.setText(QCoreApplication.translate("Form", "rfid reader connect error"))
-            self.__rfid = QCoreApplication.translate("Form", "Error")
-            self.timer.stop()
+            self.__rfid = None
 
     def scanrfid(self):
         self.readRfid()
