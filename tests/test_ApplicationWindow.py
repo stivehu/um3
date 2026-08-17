@@ -20,6 +20,14 @@ def test_application_window(qtbot,mocker):
     assert widget.ui.rfidLineEdit.text() == "ABCDEFGIJKLMOPQ"
 
 
+def test_action_rfid_push_button_no_chip(qtbot, mocker):
+    mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value=None)
+    widget = ApplicationWindow()
+
+    qtbot.mouseClick(widget.ui.rfidPushButton, QtCore.Qt.LeftButton)
+    assert widget.ui.rfidLineEdit.text() == ""
+
+
 def test_resize_text(qtbot):
     widget = ApplicationWindow()
     

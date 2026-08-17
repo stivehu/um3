@@ -103,7 +103,8 @@ class ApplicationWindow(QtWidgets.QMainWindow):
 
     def actionRfidPushButton(self):
         self.readRfid()
-        self.ui.rfidLineEdit.setText(self.__rfid)
+        if self.__rfid is not None:
+            self.ui.rfidLineEdit.setText(self.__rfid)
 
     def actionTimesync(self):
         from src.Timesync.src.TimeClient import TimeClient
