@@ -1,4 +1,5 @@
 import base64
+import datetime
 import re
 
 import pytest
@@ -40,7 +41,8 @@ def test_set_time_on_windows_requests_uac_elevation_and_sets_date(mocker):
     assert '-Verb RunAs' in outer_script
 
     inner_script = _decode_powershell_command(outer_script)
-    assert "Set-Date -Date '2023-11-14 23:13:20'" in inner_script
+    expected_local_time = datetime.datetime.fromtimestamp(1700000000).strftime('%Y-%m-%d %H:%M:%S')
+    assert f"Set-Date -Date '{expected_local_time}'" in inner_script
 
 
 def test_set_time_on_linux_uses_sudo_date(mocker):
