@@ -4,6 +4,11 @@ from PyQt6 import QtCore
 from src.controller.ApplicationWindow import ApplicationWindow
 
 
+@pytest.fixture(autouse=True)
+def isolated_conf(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+
+
 def test_shows_result_list_on_open(qtbot):
     widget = ApplicationWindow()
 
