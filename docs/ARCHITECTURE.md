@@ -132,8 +132,12 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
 5. `src/Timesync/` saját beágyazott `.git`/`.idea`-t tartalmaz, nem valódi git
    submodule (nincs `.gitmodules`) — a szülő repóban egy blokként jelenik meg
    "modified content"-ként `git status`-ban.
-6. `TimeClient.set_time()` közvetlenül `sudo date`-et hív rendszerparancsként —
-   csak Linuxon működik, jelszó nélküli sudo szükséges hozzá.
+6. `TimeClient.set_time()` `sys.platform` szerint ágazik: Linuxon `sudo date`-et
+   hív (jelszó nélküli sudo szükséges hozzá), Windowson egy UAC-jóváhagyást
+   kérő emelt jogú PowerShellt indít (`Start-Process -Verb RunAs`) a
+   `Set-Date`-hez — nem kell hozzá, hogy az egész alkalmazás eleve
+   rendszergazdaként fusson, mindkét irányú parancs `-EncodedCommand`
+   base64-kódolással megy át `os.system()`-en az idézőjel-beágyazás elkerülésére.
 7. `AgegroupModel`/`DistanceModel`/`GenderModel` a konstruktorban azonnal
    szinkron hálózati hívást indít — ha a szerver nem elérhető, `self.error`-ba
    kerül az üzenet és az `__init__` egyébként nem dob kivételt.
