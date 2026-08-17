@@ -136,7 +136,7 @@
     <message>
         <location filename="../views/localentry/localentry.ui" line="219"/>
         <source>Age group</source>
-        <translation type="unfinished">Korcsoport</translation>
+        <translation>Korcsoport</translation>
     </message>
     <message>
         <location filename="../views/localentry/localentry.ui" line="134"/>
@@ -288,6 +288,56 @@
         <source>Close</source>
         <translation>Bezár</translation>
     </message>
+    <message>
+        <location filename="../views/settings/settings.ui" line="41"/>
+        <source>Server</source>
+        <translation>Szerver</translation>
+    </message>
+    <message>
+        <location filename="../views/settings/settings.ui" line="107"/>
+        <source>Chip controll</source>
+        <translation>Csip kontroll</translation>
+    </message>
+    <message>
+        <location filename="../views/settings/settings.ui" line="200"/>
+        <source>Window</source>
+        <translation>Ablak</translation>
+    </message>
+    <message>
+        <location filename="../views/entrypickup/entrypickup.ui" line="59"/>
+        <source>Entry data</source>
+        <translation>Nevező adatai</translation>
+    </message>
+    <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="44"/>
+        <source>Entry data</source>
+        <translation>Nevező adatai</translation>
+    </message>
+    <message>
+        <location filename="../views/localentry/localentry.ui" line="50"/>
+        <source>Entry data</source>
+        <translation>Nevező adatai</translation>
+    </message>
+    <message>
+        <location filename="../views/showresult/showresult.ui" line="17"/>
+        <source>show results</source>
+        <translation>Eredmény kijelző</translation>
+    </message>
+    <message>
+        <location filename="../controller/LocalentryWindow.py" line="161"/>
+        <source>New entry added</source>
+        <translation>Nevező hozzáadva</translation>
+    </message>
+    <message>
+        <location filename="../controller/LocalentryWindow.py" line="175"/>
+        <source>Are you sure? This page will be destroyed</source>
+        <translation>Biztosan? Az oldal tartalma törlődik</translation>
+    </message>
+    <message>
+        <location filename="../controller/LocalentryWindow.py" line="176"/>
+        <source>Create new entry</source>
+        <translation>Új nevező létrehozása</translation>
+    </message>
 </context>
 <context>
     <name>PreentryForm</name>
@@ -406,6 +456,26 @@
         <source>Close</source>
         <translation>Bezár</translation>
     </message>
+    <message>
+        <location filename="../views/preentry/preentry.ui" line="43"/>
+        <source>Navigation</source>
+        <translation>Navigáció</translation>
+    </message>
+    <message>
+        <location filename="../views/preentry/preentry.ui" line="177"/>
+        <source>Login</source>
+        <translation>Bejelentkezés</translation>
+    </message>
+    <message>
+        <location filename="../views/preentry/preentry.ui" line="243"/>
+        <source>Entry data</source>
+        <translation>Nevező adatai</translation>
+    </message>
+    <message>
+        <location filename="../views/preentry/preentry.ui" line="335"/>
+        <source>History</source>
+        <translation>Előzmények</translation>
+    </message>
 </context>
 <context>
     <name>ShowintheboxForm</name>
@@ -441,6 +511,31 @@
         <location filename="../views/sendresult/sendresult.ui" line="17"/>
         <source>send result</source>
         <translation>Eredmény küldése</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="44"/>
+        <source>Result</source>
+        <translation>Eredmény</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="64"/>
+        <source>Start num</source>
+        <translation>Rajtszám</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="103"/>
+        <source>Lastname</source>
+        <translation>Vezetéknév</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="142"/>
+        <source>First name</source>
+        <translation>Keresztnév</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="175"/>
+        <source>Timestamp</source>
+        <translation>Időbélyeg</translation>
     </message>
     <message>
         <location filename="../views/sendresult/sendresult.ui" line="188"/>
@@ -503,8 +598,32 @@
     <message>
         <location filename="../views/mainwindow/mainwindow.ui" line="107"/>
         <source>send result</source>
-        <translatorcomment>Eredmény beküldése</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>Eredmény beküldése</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="37"/>
+        <source>Entry</source>
+        <translation>Nevezés</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="88"/>
+        <source>Startnum / chip</source>
+        <translation>Rajtszám / chip</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="151"/>
+        <source>Results</source>
+        <translation>Eredmények</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="196"/>
+        <source>RFID test</source>
+        <translation>RFID teszt</translation>
+    </message>
+    <message>
+        <location filename="../views/mainwindow/mainwindow.ui" line="293"/>
+        <source>Time sync</source>
+        <translation>Óra szinkronizálás</translation>
     </message>
 </context>
 <context>
