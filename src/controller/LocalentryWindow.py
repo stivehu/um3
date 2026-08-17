@@ -138,8 +138,8 @@ class LocalentryWindow(QDialog):
             self.ui.startnumLineEdit.setStyleSheet('background-color: rgb(239, 0, 0);')  # piros
             result = False
         else:
-            widget.setStyleSheet(None)
-            widget.setToolTip(None)
+            self.ui.startnumLineEdit.setStyleSheet(None)
+            self.ui.startnumLineEdit.setToolTip(None)
         if self.ui.birthdayDateEdit.text() == '1800-01-01':
             self.ui.birthdayDateEdit.setToolTip(QCoreApplication.translate("Form", "Invalid birthday"))
             self.ui.birthdayDateEdit.setStyleSheet('background-color: rgb(239, 0, 0);')  # piros

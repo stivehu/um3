@@ -108,6 +108,23 @@ def all_field_is_empty(widget):
     assert widget.localentry.ui.rfidLineEdit.text() == ''
 
 
+def test_check_dependies_keeps_invalid_combobox_highlighted(qtbot, mocker):
+    widget = ApplicationWindow()
+    mocker.patch('src.models.RemoteApiModel.RemoteApiModel.sendAjaxRequest', return_value=distances)
+    qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
+    widget.localentry.ui.startnumLineEdit.setText("100")
+    widget.localentry.ui.lastnameLineEdit.setText('Teszt')
+    widget.localentry.ui.firstnameLineEdit.setText('Elek')
+    widget.localentry.ui.settlementLineEdit.setText('Békéscsaba')
+    widget.localentry.ui.rfidLineEdit.setText('ABG3652AE')
+    widget.localentry.ui.distanceComboBox.setCurrentIndex(0)
+    widget.localentry.ui.agegroupComboBox.setCurrentIndex(0)
+    widget.localentry.ui.genderComboBox.setCurrentIndex(-1)
+    result = widget.localentry._LocalentryWindow__check_dependies()
+    assert result == False
+    assert 'rgb(239, 0, 0)' in widget.localentry.ui.genderComboBox.styleSheet()
+
+
 def test_clean_fields(qtbot):
     widget = ApplicationWindow()
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
