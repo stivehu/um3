@@ -72,7 +72,8 @@ def test_birthday_change(qtbot,mocker):
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.LeftButton)
     widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(1978, 2, 8), QtCore.QTime(0, 0, 0)))
     assert widget.localentry.ui.agegroupComboBox.currentIndex() == 5
-    widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(2018, 2, 8), QtCore.QTime(0, 0, 0)))
+    young_birth_year = QtCore.QDate.currentDate().year() - 3
+    widget.localentry.ui.birthdayDateEdit.setDateTime(QtCore.QDateTime(QtCore.QDate(young_birth_year, 2, 8), QtCore.QTime(0, 0, 0)))
     assert widget.localentry.ui.agegroupComboBox.currentIndex() == -1
 
 
