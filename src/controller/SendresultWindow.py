@@ -16,9 +16,13 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.__rfid = None
         self.__entrypickupModel = EntrypickupModel()
         self.__settings = SettingsModel()
+        self.connectSignalsSlots()
         self.initResize()
         self.initTimer()
         self.maximizeWindow()
+
+    def connectSignalsSlots(self):
+        self.ui.closePushButton.clicked.connect(self.close)
 
     def initTimer(self):
         self.timer = QTimer()
@@ -41,6 +45,7 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.timestampLineEdit.setFont(font)
         self.ui.timestampLabel.setFont(font)
         self.ui.statusBar.setFont(font)
+        self.ui.closePushButton.setFont(font)
 
     def initResize(self):
         if self.__settings.get_auto_resize_window():
@@ -53,6 +58,7 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             self.ui.statusBar.resizeEvent = self.resizeText
             self.ui.timestampLineEdit.resizeEvent = self.resizeText
             self.ui.timestampLabel.resizeEvent = self.resizeText
+            self.ui.closePushButton.resizeEvent = self.resizeText
 
     def scanrfid(self):
         self.readRfid()

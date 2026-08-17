@@ -52,6 +52,7 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.__widget_dict['pushButtons']["rfid"] = self.ui.readRfidPushButton
         self.__widget_dict['pushButtons']["new"] = self.ui.newPushButton
         self.__widget_dict['pushButtons']["save"] = self.ui.savePushButton
+        self.__widget_dict['pushButtons']["close"] = self.ui.closePushButton
 
         self.__widget_dict['dateEdits']["birthday"] = self.ui.birthdayDateEdit
 
@@ -87,6 +88,7 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.readRfidPushButton.clicked.connect(self.actionReadRfidPushButton)
         self.ui.newPushButton.clicked.connect(self.actionNewPushButton)
         self.ui.savePushButton.clicked.connect(self.actionSavePushButton)
+        self.ui.closePushButton.clicked.connect(self.close)
         self.ui.birthdayDateEdit.dateChanged.connect(self.birthdayChange)
 
     def birthdayChange(self):

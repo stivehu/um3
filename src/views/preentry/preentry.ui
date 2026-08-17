@@ -252,6 +252,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="closepushButton">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="3" column="0">
@@ -274,6 +281,7 @@
   <tabstop>insertpushButton</tabstop>
   <tabstop>savepushButton</tabstop>
   <tabstop>insertSaveNextpushButton</tabstop>
+  <tabstop>closepushButton</tabstop>
   <tabstop>urllineEdit</tabstop>
   <tabstop>usernamelineEdit</tabstop>
   <tabstop>passwordlineEdit</tabstop>

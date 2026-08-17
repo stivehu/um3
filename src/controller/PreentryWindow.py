@@ -70,6 +70,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.__widget_dict['pushButtons']["insert"] = self.ui.insertpushButton
         self.__widget_dict['pushButtons']["save"] = self.ui.savepushButton
         self.__widget_dict['pushButtons']["insertSaveNext"] = self.ui.insertSaveNextpushButton
+        self.__widget_dict['pushButtons']["close"] = self.ui.closepushButton
 
     def connectSignalsSlots(self):
         self.ui.prevpushButton.clicked.connect(self.actionPrevButton)
@@ -79,6 +80,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.loginpushButton.clicked.connect(self.actionLoginForm)
         self.ui.savepushButton.clicked.connect(self.actionSavepushButton)
         self.ui.insertSaveNextpushButton.clicked.connect(self.actionInsertSaveNextpushButton)
+        self.ui.closepushButton.clicked.connect(self.close)
 
     def actionInsertSaveNextpushButton(self):
         oldrfid = self.ui.rfidHeaderlineEdit.text()

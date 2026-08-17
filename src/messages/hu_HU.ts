@@ -268,6 +268,26 @@
         <source>%s logged id as %s</source>
         <translation>%s belépet mint %s</translation>
     </message>
+    <message>
+        <location filename="../views/localentry/localentry.ui" line="530"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
+    <message>
+        <location filename="../views/entrypickup/entrypickup.ui" line="378"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
+    <message>
+        <location filename="../views/chipcontroll/chipcontroll.ui" line="317"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
+    <message>
+        <location filename="../views/settings/settings.ui" line="300"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
 </context>
 <context>
     <name>PreentryForm</name>
@@ -381,6 +401,11 @@
         <source>F5</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="../views/preentry/preentry.ui" line="258"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
 </context>
 <context>
     <name>ShowintheboxForm</name>
@@ -403,6 +428,24 @@
         <location filename="../views/showinthebox/showinthebox.ui" line="67"/>
         <source>Startnum</source>
         <translation>Rajtszám</translation>
+    </message>
+    <message>
+        <location filename="../views/showinthebox/showinthebox.ui" line="90"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
+    </message>
+</context>
+<context>
+    <name>sendresultForm</name>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="17"/>
+        <source>send result</source>
+        <translation>Eredmény küldése</translation>
+    </message>
+    <message>
+        <location filename="../views/sendresult/sendresult.ui" line="188"/>
+        <source>Close</source>
+        <translation>Bezár</translation>
     </message>
 </context>
 <context>

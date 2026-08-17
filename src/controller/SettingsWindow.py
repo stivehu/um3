@@ -23,6 +23,7 @@ class SettingsWindow(QDialog, ResizeFontMixin):
 
     def connectSignalsSlots(self):
         self.ui.savePushButton.clicked.connect(self.actionSavePushButton)
+        self.ui.closePushButton.clicked.connect(self.close)
 
     def actionSavePushButton(self):
         self.collectSettings()
@@ -65,6 +66,7 @@ class SettingsWindow(QDialog, ResizeFontMixin):
         # self.ui.commPortComboBox.setFont(font)
         # self.ui.commPortLabel.setFont(font)
         self.ui.savePushButton.setFont(font)
+        self.ui.closePushButton.setFont(font)
 
     def initResize(self):
         if self.__settings.get_auto_resize_window():
@@ -77,6 +79,7 @@ class SettingsWindow(QDialog, ResizeFontMixin):
             self.ui.autoMaximizeOpeningWindowLabel.resizeEvent = self.resizeText
             self.ui.autoResizeWindowLabel.resizeEvent = self.resizeText
             self.ui.savePushButton.resizeEvent = self.resizeText
+            self.ui.closePushButton.resizeEvent = self.resizeText
             # self.ui.commPortLabel = self.resizeText
             # self.ui.commPortComboBox = self.resizeText
 

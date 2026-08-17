@@ -28,6 +28,7 @@ class ShowInTheBoxesWindow(QDialog, RfidReaderMixin):
 
     def connectSignalsSlots(self):
         self.ui.startnumLineEdit.returnPressed.connect(self.actionStartnumLineEditReturnPressed)
+        self.ui.closePushButton.clicked.connect(self.close)
 
     def actionStartnumLineEditReturnPressed(self):
         self.__entryModel.setinthebox('startnum', self.ui.startnumLineEdit.text())

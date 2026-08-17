@@ -28,6 +28,7 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.readRfidPushButton.clicked.connect(self.actionReadRfidPushButton)
         self.ui.entryPickupPushButton.clicked.connect(self.actionEntryPickupPushButton)
         self.ui.entryPickdownPushButton.clicked.connect(self.actionEntryPickdownPushButton)
+        self.ui.closePushButton.clicked.connect(self.close)
 
     def actionEntryPickupPushButton(self):
         if self.__rfid is not None:
@@ -122,6 +123,7 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             self.ui.agegroupLabel.resizeEvent = self.resizeText
             self.ui.entryPickdownPushButton.resizeEvent = self.resizeText
             self.ui.statusBar.resizeEvent = self.resizeText
+            self.ui.closePushButton.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         font = self._resizeFont()
@@ -143,6 +145,7 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.agegroupLabel.setFont(font)
         self.ui.entryPickdownPushButton.setFont(font)
         self.ui.statusBar.setFont(font)
+        self.ui.closePushButton.setFont(font)
 
     def readRfid(self):
         self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)

@@ -36,6 +36,7 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
         self.ui.preEntryPushButton.clicked.connect(self.actionPreentryPushButton)
         self.ui.sendresultPushButton.clicked.connect(self.actionSendresultPushButton)
         self.ui.timesyncPushButton.clicked.connect(self.actionTimesync)
+        self.ui.exitPushButton.clicked.connect(self.close)
 
     def actionSendresultPushButton(self):
         self.hide()
@@ -59,6 +60,7 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
             self.ui.rfidLineEdit.resizeEvent = self.resizeText
             self.ui.preEntryPushButton.resizeEvent = self.resizeText
             self.ui.settingPushButton.resizeEvent = self.resizeText
+            self.ui.exitPushButton.resizeEvent = self.resizeText
 
     def resizeText(self, event):
         font = self._resizeFont(divisor=14)
@@ -70,6 +72,7 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
         self.ui.rfidLineEdit.setFont(font)
         self.ui.preEntryPushButton.setFont(font)
         self.ui.settingPushButton.setFont(font)
+        self.ui.exitPushButton.setFont(font)
 
     def actionEntryPickupPushButton(self):
         self.hide()
