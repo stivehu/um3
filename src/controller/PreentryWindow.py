@@ -238,6 +238,12 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.readRfid()
         if self.__rfid is not None:
             self.ui.rfidHeaderlineEdit.setText(self.__rfid)
+            self.timer.stop()
+            self.timer.singleShot(self.__settings.get_chipcontroll_wait_after_read(), self.restore_timer)
+
+    def restore_timer(self):
+        self.timer.stop()
+        self.timer.start(self.__settings.get_chipcontroll_interval())
 
     def closeEvent(self, event):
         self.parent().show()

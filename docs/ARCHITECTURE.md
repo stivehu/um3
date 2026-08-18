@@ -63,6 +63,8 @@ visszaadja a szülő ablakot.
   - `actionNextButton` / `actionPrevButton` — rajtszám lépegetés (±1) + olvasás
   - `actionInsertSaveNextpushButton(self)` — RFID beszúrás + mentés + következő
     rajtszám egy gombnyomásra (insert → save → next láncolás)
+  - `scanrfid(self)` — periodikus RFID olvasás a fejléc mezőbe, `ChipControllWindow`-hoz
+    hasonló `restore_timer`-es debounce-szal (lásd Buktatók 8.)
 - `SendresultWindow` — RFID leolvasás időbélyeggel eredményküldéshez
   - `scanrfid(self)` — RFID → `EntrypickupModel.create_entry_timestamp_from_rfid()`
 - `ShowResultWindow` — "Eredmény kijelző": beágyazott `QWebEngineView`-ban
@@ -156,7 +158,8 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
 7. `AgegroupModel`/`DistanceModel`/`GenderModel` a konstruktorban azonnal
    szinkron hálózati hívást indít — ha a szerver nem elérhető, `self.error`-ba
    kerül az üzenet és az `__init__` egyébként nem dob kivételt.
-8. `ChipControllWindow.fillFields` a timert leállítja olvasás után és csak
+8. `ChipControllWindow.fillFields` (és ugyanígy `PreentryWindow.scanrfid` /
+   `ShowResultWindow.scanrfid`) a timert leállítja olvasás után és csak
    `get_chipcontroll_wait_after_read()` ms múlva indítja újra
    (`restore_timer`) — ez szándékos "debounce", ne távolítsd el gondolkodás
    nélkül.

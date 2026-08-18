@@ -68,3 +68,25 @@ def test_scanrfid_transient_error_does_not_stop_timer(qtbot, mocker):
     mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', side_effect=Exception('port error'))
     widget.preentry.scanrfid()
     assert widget.preentry.timer.isActive()
+
+
+def test_scanrfid_pauses_timer_after_read(qtbot, mocker):
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', return_value="ABCDEF")
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+
+    assert widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF"
+    assert not widget.preentry.timer.isActive()
+
+
+def test_scanrfid_resumes_timer_after_restore(qtbot, mocker):
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', return_value="ABCDEF")
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+    widget.preentry.restore_timer()
+
+    assert widget.preentry.timer.isActive()
