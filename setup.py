@@ -35,7 +35,6 @@ if get_qt_plugins_paths:
 icon_png = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.png")
 icon_ico = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.ico")
 include_files += [
-    (os.path.join(os.path.dirname(sys.executable), 'Library', 'plugins'), 'plugins'),
     (icon_png, "icon.png"),
 ]
 
