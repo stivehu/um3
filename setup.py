@@ -32,16 +32,15 @@ if get_qt_plugins_paths:
         "wayland-shell-integration",
     ):
         include_files += get_qt_plugins_paths("PyQt6", plugin_name)
-        print (include_files)
 icon_png = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.png")
 icon_ico = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.ico")
-include_files = [
+include_files += [
     (os.path.join(os.path.dirname(sys.executable), 'Library', 'plugins'), 'plugins'),
     (icon_png, "icon.png"),
 ]
 
 
-build_exe_options = {"excludes": ["tkinter"], "include_files": [include_files], "optimize": 2}
+build_exe_options = {"excludes": ["tkinter"], "include_files": include_files, "optimize": 2}
 bdist_msi_options = {
     "all_users": True
 }
