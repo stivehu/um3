@@ -59,8 +59,10 @@ visszaadja a szülő ablakot.
   - `fillFields(self, entry: dict)` — nevező adatok kiírása, `pickedUp`
     állapot szerint zöld/piros háttér
 - `ChipControllWindow` — időzített (QTimer) chip-kontroll olvasás
-  - `scanrfid(self)` — periodikus RFID olvasás + entry lookup, majd a timer
-    ideiglenes megállítása `restore_timer`-ig (lásd Buktatók)
+  - `scanrfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon (entry lookup, majd a timer ideiglenes
+    megállítása `restore_timer`-ig, lásd Buktatók 8. és 10.)
 - `PreentryWindow` — előnevezés / rajtszám↔RFID párosítás a nevezési oldalon
   - `readStartnum(self, startnum)` — nevező lekérése rajtszám alapján;
     302 státusz = nincs bejelentkezve, 404 = nincs ilyen rajtszám
