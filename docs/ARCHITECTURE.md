@@ -93,7 +93,11 @@ visszaadja a szülő ablakot.
   - `collectSettings(self)` / `initValues(self)` — UI ↔ `SettingsModel` szinkron
 - `ShowInTheBoxesWindow` — "dobozban" lévő rajtszámok listája/számlálója
   - `actionStartnumLineEditReturnPressed(self)` — kézi rajtszám → `EntryModel.setinthebox`
-  - `scanrfid(self)` — RFID alapú dobozba-jelölés, `IntheboxModel.list()` frissít
+  - `scanrfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon (`__reading_rfid` flag, `closeEvent` megvárja a
+    workert, lásd Buktatók 10.), RFID alapú dobozba-jelölés,
+    `IntheboxModel.list()` frissít
 
 ### `src/models/` — üzleti logika, Qt UI-mentes (kivéve `IntheboxModel`)
 - `SettingsModel` — `um.conf` wrapper `ConfigParser`-rel; `get_*`/`set_*`

@@ -15,6 +15,10 @@ class ShowInTheBoxesWindow(QDialog, RfidReaderMixin):
         super(ShowInTheBoxesWindow, self).__init__(parent)
         self.ui = Ui_ShowintheboxForm()
         self.ui.setupUi(self)
+        self.__rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.__closing = False
         self.__settings = SettingsModel()
         self.__intheboxmodel = IntheboxModel()
         self.__entryModel = EntryModel()
@@ -44,16 +48,27 @@ class ShowInTheBoxesWindow(QDialog, RfidReaderMixin):
         self.timer.start(self.__settings.get_chipcontroll_interval())
 
     def scanrfid(self):
-        self.readRfid()
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        if self.__closing:
+            return
+        self.ui.statusBar.setText(error)
+        self.__rfid = rfid
         if self.__rfid is not None:
-            self.__entryModel.setinthebox('rfid',self.__rfid)
+            self.__entryModel.setinthebox('rfid', self.__rfid)
             self.__intheboxmodel.list()
             self.updateCounter()
 
-    def readRfid(self):
-        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
-
     def closeEvent(self, event):
+        self.__closing = True
         self.timer.stop()
+        if self.__read_worker is not None and self.__read_worker.isRunning():
+            self.__read_worker.wait(6000)
         self.parent().show()
         self.close()
