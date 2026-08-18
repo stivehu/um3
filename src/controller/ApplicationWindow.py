@@ -25,6 +25,8 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
         self.__settings = SettingsModel()
         self.initResize()
         self.__rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
 
     def connectSignalsSlots(self):
         self.ui.actionExit.triggered.connect(self.close)
@@ -110,8 +112,6 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
 
     def actionRfidPushButton(self):
         self.readRfid()
-        if self.__rfid is not None:
-            self.ui.rfidLineEdit.setText(self.__rfid)
 
     def actionTimesync(self):
         from src.Timesync.src.TimeClient import TimeClient
@@ -123,10 +123,20 @@ class ApplicationWindow(QtWidgets.QMainWindow, RfidReaderMixin, ResizeFontMixin)
             self.ui.statusbar.showMessage(timeClient.error, 3000)
 
     def readRfid(self):
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
         self.__settings = SettingsModel()
-        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusbar.showMessage)
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.ui.statusbar.showMessage(error)
+        self.__rfid = rfid
         if isinstance(self.__rfid, str):
             pyperclip.copy(self.__rfid)
+            self.ui.rfidLineEdit.setText(self.__rfid)
 
     def closeEvent(self, event):
         exit()

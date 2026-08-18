@@ -46,7 +46,10 @@ visszaadja a szülő ablakot.
   - `ResizeFontMixin._resizeFont(self, divisor=40, default_size=14)` — az
     ablak méretezéséhez a betűméretet számoló közös logika
 - `ApplicationWindow` — fő hub, megnyitja az almenüket
-  - `readRfid(self)` — TID olvasás, vágólapra másolás, hiba a státuszsorba
+  - `readRfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon (`__reading_rfid` flag, lásd Buktatók 10.) —
+    TID vágólapra másolás, hiba a státuszsorba
   - `actionTimesync(self)` — `TimeClient` hívása, szerveridő lekérdezés/szinkron
 - `LocalentryWindow` — helyi új nevező felvitele
   - `get_entry_field(self) -> dict` — form mezők → API payload dict
@@ -206,9 +209,9 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
     párost használ: `scanrfid()` csak elindítja a háttérszálas olvasást és
     azonnal visszatér, az eredményt `__onRfidRead` dolgozza fel a GUI
     szálon; `__reading_rfid` flag védi az egymást átfedő olvasásokat, a
-    `closeEvent` pedig megvárja a még futó worker-t bezáráskor. A többi,
-    `RfidReaderMixin._readTid`-et (szinkron) használó ablak egyelőre nincs
-    átállítva erre a mintára — lásd `docs/TASKS.md`.
+    `closeEvent` pedig megvárja a még futó worker-t bezáráskor. Minden
+    `RfidReaderMixin`-t használó ablak (`ApplicationWindow` is) átállt erre
+    a mintára, lásd `docs/TASKS.md`.
     **Fontos csapda**: `ApplicationWindow.closeEvent` a beépített `exit()`-et
     hívja, ami a Qt-t megkerülve azonnal leállítja az interpretert —
     `PreentryWindow.closeEvent` ilyenkor NEM feltétlenül fut le, tehát az ott
