@@ -33,9 +33,12 @@ if get_qt_plugins_paths:
     ):
         include_files += get_qt_plugins_paths("PyQt6", plugin_name)
         print (include_files)
+icon_png = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.png")
+icon_ico = os.path.join(os.path.dirname(__file__), "src", "resources", "icon.ico")
 include_files = [
-    (os.path.join(os.path.dirname(sys.executable), 'Library', 'plugins'), 'plugins')
-]        
+    (os.path.join(os.path.dirname(sys.executable), 'Library', 'plugins'), 'plugins'),
+    (icon_png, "icon.png"),
+]
 
 
 build_exe_options = {"excludes": ["tkinter"], "include_files": [include_files], "optimize": 2}
@@ -54,5 +57,5 @@ setup(
     description="User manager 3",
     options={"build_exe": build_exe_options,
              "bdist_msi": bdist_msi_options},
-    executables=[Executable("main.py", base=base, shortcut_name="Nevező kezelő", shortcut_dir="DesktopFolder", )]
+    executables=[Executable("main.py", base=base, icon=icon_ico, shortcut_name="Nevező kezelő", shortcut_dir="DesktopFolder", )]
 )
