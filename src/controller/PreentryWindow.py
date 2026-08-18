@@ -21,7 +21,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.connectSignalsSlots()
         self.__startnum_is_updating = False
         self.__rfid = None
-        self.__saved_rfid = False
+        self.__last_consumed_rfid = None
         self.__entryModel = EntryModel()
         self.__settings = SettingsModel()
         self.__init_entry_site_url()
@@ -103,6 +103,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         return True
 
     def actioninsertpushButton(self):
+        self.__last_consumed_rfid = self.ui.rfidHeaderlineEdit.text()
         self.ui.rfidlineEdit.setText(self.ui.rfidHeaderlineEdit.text())
         self.ui.rfidHeaderlineEdit.setText(None)
         self.ui.historylistWidget.insertItem(0, QCoreApplication.translate("Form",
@@ -236,7 +237,7 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
 
     def scanrfid(self):
         self.readRfid()
-        if self.__rfid is not None:
+        if self.__rfid is not None and self.__rfid != self.__last_consumed_rfid:
             self.ui.rfidHeaderlineEdit.setText(self.__rfid)
             self.timer.stop()
             self.timer.singleShot(self.__settings.get_chipcontroll_wait_after_read(), self.restore_timer)

@@ -90,3 +90,31 @@ def test_scanrfid_resumes_timer_after_restore(qtbot, mocker):
     widget.preentry.restore_timer()
 
     assert widget.preentry.timer.isActive()
+
+
+def test_scanrfid_ignores_lingering_consumed_chip(qtbot, mocker):
+    get_tid = mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', return_value="ABCDEF")
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+    widget.preentry.actioninsertpushButton()
+    widget.preentry.restore_timer()
+    widget.preentry.scanrfid()
+
+    assert widget.preentry.ui.rfidHeaderlineEdit.text() == ""
+
+
+def test_scanrfid_accepts_new_chip_after_consuming_previous(qtbot, mocker):
+    get_tid = mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', return_value="ABCDEF")
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+    widget.preentry.actioninsertpushButton()
+    widget.preentry.restore_timer()
+
+    get_tid.return_value = "123456"
+    widget.preentry.scanrfid()
+
+    assert widget.preentry.ui.rfidHeaderlineEdit.text() == "123456"
