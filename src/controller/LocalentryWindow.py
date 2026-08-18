@@ -19,6 +19,9 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.setupUi(self)
         self.connectSignalsSlots()
         self.__rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.__closing = False
         self.__entrypickupModel = EntrypickupModel()
         self.__settings = SettingsModel()
         self.__init_widget_dict()
@@ -179,7 +182,18 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             self.cleanFields()
 
     def actionReadRfidPushButton(self):
-        self.readRfid()
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        if self.__closing:
+            return
+        self.ui.statusBarLabel.setText(error)
+        self.__rfid = rfid
         self.ui.rfidLineEdit.setText(self.__rfid)
 
     def cleanFields(self):
@@ -201,9 +215,9 @@ class LocalentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             for widget in widgetTypes.values():
                 widget.setFont(font)
 
-    def readRfid(self):
-        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBarLabel.setText)
-
     def closeEvent(self, event):
+        self.__closing = True
+        if self.__read_worker is not None and self.__read_worker.isRunning():
+            self.__read_worker.wait(6000)
         self.parent().show()
         self.close()

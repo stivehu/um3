@@ -53,6 +53,10 @@ visszaadja a szülő ablakot.
   - `__check_dependies(self) -> bool` — kötelező mezők validálása, piros jelölés
   - `actionSavePushButton(self)` — validál, majd `EntryModel.create_new_entry()`
   - `birthdayChange(self)` — születési dátumból korcsoport auto-kiválasztás
+  - `actionReadRfidPushButton(self)` — nem blokkoló: `_readTidAsync`-kal
+    háttérszálon indítja az RFID olvasást és azonnal visszatér; az
+    eredményt `__onRfidRead` dolgozza fel a GUI szálon (`__reading_rfid`
+    flag, `closeEvent` megvárja a workert, lásd Buktatók 10.)
 - `EntrypickupWindow` — chip kiadás/visszavétel rajtszám/RFID alapján
   - `actionEntryPickupPushButton` / `actionEntryPickdownPushButton` — RFID
     alapján ki-/bejelölés `EntrypickupModel`-en

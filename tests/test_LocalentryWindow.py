@@ -34,7 +34,7 @@ def test_action_read_rfid_push_button(qtbot, mocker):
     qtbot.mouseClick(widget.ui.localEntrypushButton, QtCore.Qt.MouseButton.LeftButton)
     mocker.patch('src.controller.ApplicationWindow.Chafonrfid.get_tid', return_value="GENATED_RFID")
     qtbot.mouseClick(widget.localentry.ui.readRfidPushButton, QtCore.Qt.MouseButton.LeftButton)
-    assert widget.localentry.ui.rfidLineEdit.text() == 'GENATED_RFID'
+    qtbot.waitUntil(lambda: widget.localentry.ui.rfidLineEdit.text() == 'GENATED_RFID', timeout=2000)
 
 
 def test_action_new_push_button(qtbot,mocker):
