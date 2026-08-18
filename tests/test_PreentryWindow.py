@@ -1,3 +1,5 @@
+import time
+
 from PyQt6 import QtCore
 from PyQt6.QtWidgets import QMessageBox
 
@@ -66,7 +68,10 @@ def test_scanrfid_transient_error_does_not_stop_timer(qtbot, mocker):
     widget = ApplicationWindow()
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
     mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', side_effect=Exception('port error'))
+
     widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.statusBar.text() == 'port error', timeout=2000)
+
     assert widget.preentry.timer.isActive()
 
 
@@ -76,8 +81,8 @@ def test_scanrfid_pauses_timer_after_read(qtbot, mocker):
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
 
     widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
 
-    assert widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF"
     assert not widget.preentry.timer.isActive()
 
 
@@ -87,6 +92,7 @@ def test_scanrfid_resumes_timer_after_restore(qtbot, mocker):
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
 
     widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
     widget.preentry.restore_timer()
 
     assert widget.preentry.timer.isActive()
@@ -98,9 +104,11 @@ def test_scanrfid_ignores_lingering_consumed_chip(qtbot, mocker):
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
 
     widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
     widget.preentry.actioninsertpushButton()
     widget.preentry.restore_timer()
     widget.preentry.scanrfid()
+    qtbot.wait(300)
 
     assert widget.preentry.ui.rfidHeaderlineEdit.text() == ""
 
@@ -111,10 +119,68 @@ def test_scanrfid_accepts_new_chip_after_consuming_previous(qtbot, mocker):
     qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
 
     widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
     widget.preentry.actioninsertpushButton()
     widget.preentry.restore_timer()
 
     get_tid.return_value = "123456"
     widget.preentry.scanrfid()
 
-    assert widget.preentry.ui.rfidHeaderlineEdit.text() == "123456"
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "123456", timeout=2000)
+
+
+def test_scanrfid_does_not_block_ui_thread(qtbot, mocker):
+    # A soros port olvasása másodpercekig blokkolhat (SerialTransport
+    # timeout=5s) -- ha a scanrfid szinkron lenne, ez lefagyasztaná a teljes
+    # ablakot, és a fagyás alatt beérkező kattintások a feloldódáskor
+    # egyszerre, duplán sülnének el. Ez a teszt azt igazolja, hogy a
+    # scanrfid() azonnal visszatér, a tényleges olvasás háttérszálon fut.
+    def slow_get_tid(self):
+        time.sleep(0.3)
+        return "ABCDEF"
+
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', slow_get_tid)
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+
+    assert widget.preentry.ui.rfidHeaderlineEdit.text() == ""
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
+
+
+def test_scanrfid_ignores_overlapping_calls_while_reading(qtbot, mocker):
+    call_count = {'n': 0}
+
+    def slow_get_tid(self):
+        call_count['n'] += 1
+        time.sleep(0.3)
+        return "ABCDEF"
+
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', slow_get_tid)
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+    # a saját poll-timerét leállítjuk, hogy csak a két explicit scanrfid()
+    # hívás olvasson -- korábbi (le nem zárt) tesztek háttérben futó ablakai
+    # egyébként is triggerelhetnek egy-egy plusz olvasást ugyanerre a
+    # globálisan patch-elt get_tid-re, ami itt nem a vizsgált eset.
+    widget.preentry.timer.stop()
+
+    widget.preentry.scanrfid()
+    widget.preentry.scanrfid()
+    qtbot.waitUntil(lambda: widget.preentry.ui.rfidHeaderlineEdit.text() == "ABCDEF", timeout=2000)
+
+    assert call_count['n'] == 1
+
+
+def test_close_event_while_read_in_flight_does_not_crash(qtbot, mocker):
+    def slow_get_tid(self):
+        time.sleep(0.2)
+        return "ABCDEF"
+
+    mocker.patch('src.chafonrfid.Chafonrfid.Chafonrfid.get_tid', slow_get_tid)
+    widget = ApplicationWindow()
+    qtbot.mouseClick(widget.ui.preEntryPushButton, QtCore.Qt.MouseButton.LeftButton)
+
+    widget.preentry.scanrfid()
+    widget.preentry.close()

@@ -37,7 +37,12 @@ visszaadja a szülő ablakot.
   kiváltó mixinek, a legtöbb ablak-controller ezt örökli
   - `RfidReaderMixin._readTid(self, comm_port, set_status)` — `Chafonrfid`
     létrehozása, `get_tid()`, hibaüzenet/törlés a megadott `set_status`
-    callback-en (pl. `label.setText` vagy `statusbar.showMessage`) keresztül
+    callback-en (pl. `label.setText` vagy `statusbar.showMessage`) keresztül;
+    **szinkron, blokkolja a GUI szálat** (lásd Buktatók 10.)
+  - `RfidReaderMixin._readTidAsync(self, comm_port, on_result)` — mint fent,
+    de `RfidReadWorker` (`QThread`) háttérszálon futtatja, `on_result(rfid,
+    error)`-t a GUI szálon hívja meg a befejezéskor; jelenleg csak
+    `PreentryWindow` használja (lásd Buktatók 10.)
   - `ResizeFontMixin._resizeFont(self, divisor=40, default_size=14)` — az
     ablak méretezéséhez a betűméretet számoló közös logika
 - `ApplicationWindow` — fő hub, megnyitja az almenüket
@@ -63,8 +68,10 @@ visszaadja a szülő ablakot.
   - `actionNextButton` / `actionPrevButton` — rajtszám lépegetés (±1) + olvasás
   - `actionInsertSaveNextpushButton(self)` — RFID beszúrás + mentés + következő
     rajtszám egy gombnyomásra (insert → save → next láncolás)
-  - `scanrfid(self)` — periodikus RFID olvasás a fejléc mezőbe, `ChipControllWindow`-hoz
-    hasonló `restore_timer`-es debounce-szal (lásd Buktatók 8.)
+  - `scanrfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon, `ChipControllWindow`-hoz hasonló
+    `restore_timer`-es debounce-szal (lásd Buktatók 8. és 10.)
 - `SendresultWindow` — RFID leolvasás időbélyeggel eredményküldéshez
   - `scanrfid(self)` — RFID → `EntrypickupModel.create_entry_timestamp_from_rfid()`
 - `ShowResultWindow` — "Eredmény kijelző": beágyazott `QWebEngineView`-ban
@@ -163,12 +170,41 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
    `get_chipcontroll_wait_after_read()` ms múlva indítja újra
    (`restore_timer`) — ez szándékos "debounce", ne távolítsd el gondolkodás
    nélkül.
-9. A mappákban lévő `.pyc` fájlok build/cache artifactok, nem forrás — ne
+9. `PreentryWindow` ezen felül megjegyzi `__last_consumed_rfid`-ként az
+   utoljára `actioninsertpushButton`-nal felhasznált RFID-et, és
+   `scanrfid`-ben kihagyja — időzítéstől függetlenül elkerülve, hogy egy még
+   a leolvasó közelében lévő, már elmentett chip véletlenül újra bekerüljön
+   a fejléc mezőbe és duplán mentődjön el egy másik rajtszámra.
+10. `SerialTransport` (`transport_serial.py`) `timeout=5` másodperccel nyitja
+    a soros portot, és `Chafonrfid.get_tid()` több `read_frame()`-et is
+    hívhat egy olvasáson belül (`MORE_FRAMES` válasz) — egy szinkron hívás
+    így simán elhúzódhat 5-15+ másodpercig. Ha ez a GUI szálon fut (mint a
+    `RfidReaderMixin._readTid`-et használó összes többi ablaknál jelenleg
+    is), az egész alkalmazás lefagy erre az időre, és a fagyás alatt
+    beérkező kattintások Qt-sorba kerülve a feloldódáskor egyszerre, duplán
+    sülnek el (pl. egy gomb kétszer regisztrálja a lépést). `PreentryWindow`
+    ezért `RfidReaderMixin._readTidAsync` + `RfidReadWorker` (`QThread`)
+    párost használ: `scanrfid()` csak elindítja a háttérszálas olvasást és
+    azonnal visszatér, az eredményt `__onRfidRead` dolgozza fel a GUI
+    szálon; `__reading_rfid` flag védi az egymást átfedő olvasásokat, a
+    `closeEvent` pedig megvárja a még futó worker-t bezáráskor. A többi,
+    `RfidReaderMixin._readTid`-et (szinkron) használó ablak egyelőre nincs
+    átállítva erre a mintára — lásd `docs/TASKS.md`.
+    **Fontos csapda**: `ApplicationWindow.closeEvent` a beépített `exit()`-et
+    hívja, ami a Qt-t megkerülve azonnal leállítja az interpretert —
+    `PreentryWindow.closeEvent` ilyenkor NEM feltétlenül fut le, tehát az ott
+    lévő "várd meg a worker-t" logika nem elég. Emiatt a `WindowMixin` egy
+    modulszintű `_active_workers` listát és egy `atexit`-tel regisztrált
+    cleanup-ot is tartalmaz, ami a leállás módjától függetlenül megvárja a
+    még futó worker(eke)t, mielőtt az interpreter ténylegesen leállna —
+    enélkül "QThread: Destroyed while thread is still running" végzetes
+    hibával (SIGABRT) állhat le az egész alkalmazás.
+11. A mappákban lévő `.pyc` fájlok build/cache artifactok, nem forrás — ne
    ezekből dolgozz, és ne bízz bennük naprakészként.
-10. Tesztek a hálózati/soros réteget mockolják (`pytest-mock`,
+12. Tesztek a hálózati/soros réteget mockolják (`pytest-mock`,
     `transport.MockTransport`) — új modell/controller teszt írásakor kövesd
     ezt a mintát, ne hívj élő szervert vagy hardvert.
-11. `PyQt6.QtWebEngineWidgets`-et (a `ShowResultWindow`/`showresult.py`
+13. `PyQt6.QtWebEngineWidgets`-et (a `ShowResultWindow`/`showresult.py`
     használja) a `QApplication` létrehozása ELŐTT kell importálni, különben
     `ImportError`-t dob induláskor — ez működik magától, amíg a
     `ShowResultWindow` importja az `ApplicationWindow`-n (és így a

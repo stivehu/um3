@@ -1,3 +1,6 @@
+import logging
+import os
+
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
@@ -12,6 +15,20 @@ from src.models.SettingsModel import SettingsModel
 from src.views.preentry.preentry import Ui_PreentryForm
 from datetime import datetime
 
+# Ideiglenes debug naplózás a "gyors végrehajtás" megakadás / dupla-lépés hiba
+# felderítéséhez. Csak akkor ír fájlba, ha az UM3_DEBUG_RFID környezeti változó
+# be van állítva -- alap esetben (pl. teszteknél) nincs mellékhatása.
+_debug_logger = logging.getLogger('preentry_debug')
+if os.environ.get('UM3_DEBUG_RFID') and not _debug_logger.handlers:
+    _debug_log_path = os.path.abspath('preentry_debug.log')
+    _debug_handler = logging.FileHandler(_debug_log_path, mode='w')
+    _debug_handler.setFormatter(logging.Formatter('%(asctime)s.%(msecs)03d %(message)s', datefmt='%H:%M:%S'))
+    _debug_logger.addHandler(_debug_handler)
+    _debug_logger.setLevel(logging.DEBUG)
+    _debug_logger.propagate = False
+    print("[UM3_DEBUG_RFID] PreentryWindow debug log active -> %s" % _debug_log_path, flush=True)
+    _debug_logger.debug("=== debug log started, pid=%s ===", os.getpid())
+
 
 class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
     def __init__(self, parent=None):
@@ -22,6 +39,9 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.__startnum_is_updating = False
         self.__rfid = None
         self.__last_consumed_rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.__closing = False
         self.__entryModel = EntryModel()
         self.__settings = SettingsModel()
         self.__init_entry_site_url()
@@ -84,15 +104,24 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
 
     def actionInsertSaveNextpushButton(self):
         oldrfid = self.ui.rfidHeaderlineEdit.text()
+        _debug_logger.debug("InsertSaveNext: start oldrfid=%r startnum=%r", oldrfid,
+                             self.ui.startnumHeaderlineEdit.text())
         self.actioninsertpushButton()
         if self.ui.rfidHeaderlineEdit.text() == None or self.ui.rfidHeaderlineEdit.text() != oldrfid:
             if self.actionSavepushButton() == True:
+                _debug_logger.debug("InsertSaveNext: save OK, calling actionNextButton")
                 self.actionNextButton()
+            else:
+                _debug_logger.debug("InsertSaveNext: save FAILED, next not called")
+        else:
+            _debug_logger.debug("InsertSaveNext: skipped save/next, header unchanged (%r)", oldrfid)
 
     def actionSavepushButton(self):
         startnum = self.ui.startnumlineEdit.text()
         rfid = self.ui.rfidlineEdit.text()
         self.__entryModel.update_rfid_from_startnum(startnum, rfid)
+        _debug_logger.debug("actionSavepushButton: startnum=%r rfid=%r status_code=%r", startnum, rfid,
+                             self.__entryModel.status_code)
         if self.__entryModel.status_code != 200:
             self.ui.statusBar.setText(self.__entryModel.error)
             self.ui.historylistWidget.insertItem(0, QCoreApplication.translate("Form", "%s Can't  save %s to %s") % (
@@ -104,6 +133,8 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
 
     def actioninsertpushButton(self):
         self.__last_consumed_rfid = self.ui.rfidHeaderlineEdit.text()
+        _debug_logger.debug("actioninsertpushButton: consuming rfid=%r for startnum=%r",
+                             self.__last_consumed_rfid, self.ui.startnumlineEdit.text())
         self.ui.rfidlineEdit.setText(self.ui.rfidHeaderlineEdit.text())
         self.ui.rfidHeaderlineEdit.setText(None)
         self.ui.historylistWidget.insertItem(0, QCoreApplication.translate("Form",
@@ -114,7 +145,10 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
                                                  self.ui.startnumlineEdit.text()))
 
     def actionNextButton(self):
+        _debug_logger.debug("actionNextButton: called, current header=%r startnum_is_updating=%r",
+                             self.ui.startnumHeaderlineEdit.text(), self.__startnum_is_updating)
         if not self.ui.startnumHeaderlineEdit.text().isdigit():
+            _debug_logger.debug("actionNextButton: header not digit, returning")
             return
         self.__startnum_is_updating = True
         currentStartnum = int(self.ui.startnumHeaderlineEdit.text())
@@ -228,25 +262,44 @@ class PreentryWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.timer.timeout.connect(self.scanrfid)
         self.timer.start(self.__settings.get_chipcontroll_interval())
 
-    def readRfid(self):
-        try:
-            self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
-        except Exception:
-            self.ui.statusBar.setText(QCoreApplication.translate("Form", "rfid reader connect error"))
-            self.__rfid = None
-
     def scanrfid(self):
-        self.readRfid()
-        if self.__rfid is not None and self.__rfid != self.__last_consumed_rfid:
+        # A soros port olvasása (SerialTransport timeout=5s, több frame is
+        # lehet) másodpercekig blokkolhatna a GUI szálon -- ezért háttérszálon
+        # fut (_readTidAsync), a scanrfid csak elindítja és azonnal visszatér.
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        if self.__closing:
+            return
+        if error is not None:
+            self.ui.statusBar.setText(error)
+        else:
+            self.ui.statusBar.setText(None)
+        self.__rfid = rfid
+        if self.__rfid is not None and self.__rfid == self.__last_consumed_rfid:
+            _debug_logger.debug("scanrfid: ignoring lingering consumed chip %r", self.__rfid)
+            return
+        if self.__rfid is not None:
+            _debug_logger.debug("scanrfid: accepted chip %r into header (was %r)", self.__rfid,
+                                 self.ui.rfidHeaderlineEdit.text())
             self.ui.rfidHeaderlineEdit.setText(self.__rfid)
             self.timer.stop()
             self.timer.singleShot(self.__settings.get_chipcontroll_wait_after_read(), self.restore_timer)
 
     def restore_timer(self):
+        _debug_logger.debug("restore_timer: restarting timer")
         self.timer.stop()
         self.timer.start(self.__settings.get_chipcontroll_interval())
 
     def closeEvent(self, event):
-        self.parent().show()
+        self.__closing = True
         self.timer.stop()
+        if self.__read_worker is not None and self.__read_worker.isRunning():
+            self.__read_worker.wait(6000)
+        self.parent().show()
         self.close()
