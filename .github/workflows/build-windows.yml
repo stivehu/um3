@@ -25,7 +25,7 @@ jobs:
         # does not install on Windows. Install only what the build needs.
         run: |
           python -m pip install --upgrade pip
-          pip install PyQt6 pyserial requests beautifulsoup4 huey pyperclip cx_freeze
+          pip install PyQt6 PyQt6-WebEngine pyserial requests beautifulsoup4 huey pyperclip cx_freeze
 
       - name: Build executable
         run: python setup.py build
