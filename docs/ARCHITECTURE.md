@@ -79,10 +79,12 @@ visszaadja a szülő ablakot.
 - `ShowResultWindow` — "Eredmény kijelző": beágyazott `QWebEngineView`-ban
   mutatja a timing szerver publikus eredményoldalait, kioszk-képernyőként
   - alapból a `/entry/result` (összes futó) oldalt tölti be
-  - `scanrfid(self)` — periodikus RFID olvasás (`ChipControllWindow`-hoz
-    hasonló `QTimer` minta); olvasott chipnél a `/entry/scoreboard?rfid=...`
+  - `scanrfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon, olvasott chipnél a `/entry/scoreboard?rfid=...`
     (a beolvasó saját eredménye) oldalra vált, majd
     `get_chipcontroll_wait_after_read()` ms múlva visszaáll a listára
+    (`ChipControllWindow`-hoz hasonló minta, lásd Buktatók 8. és 10.)
 - `SettingsWindow` — `um.conf` szerkesztő UI
   - `collectSettings(self)` / `initValues(self)` — UI ↔ `SettingsModel` szinkron
 - `ShowInTheBoxesWindow` — "dobozban" lévő rajtszámok listája/számlálója
