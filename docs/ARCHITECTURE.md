@@ -56,6 +56,10 @@ visszaadja a szülő ablakot.
 - `EntrypickupWindow` — chip kiadás/visszavétel rajtszám/RFID alapján
   - `actionEntryPickupPushButton` / `actionEntryPickdownPushButton` — RFID
     alapján ki-/bejelölés `EntrypickupModel`-en
+  - `actionReadRfidPushButton(self)` — nem blokkoló: `_readTidAsync`-kal
+    háttérszálon indítja az RFID olvasást és azonnal visszatér; az
+    eredményt `__onRfidRead` dolgozza fel a GUI szálon (`__reading_rfid`
+    flag, `closeEvent` megvárja a workert, lásd Buktatók 10.)
   - `fillFields(self, entry: dict)` — nevező adatok kiírása, `pickedUp`
     állapot szerint zöld/piros háttér
 - `ChipControllWindow` — időzített (QTimer) chip-kontroll olvasás

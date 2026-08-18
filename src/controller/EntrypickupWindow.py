@@ -14,6 +14,9 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.setupUi(self)
         self.connectSignalsSlots()
         self.__rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.__closing = False
         self.__entrypickupModel = EntrypickupModel()
         self.__settings = SettingsModel()
         self.initResize()
@@ -60,7 +63,25 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             self.cleanFields()
 
     def actionReadRfidPushButton(self):
-        self.readRfid()
+        # A soros port olvasása (SerialTransport timeout=5s, több frame is
+        # lehet) másodpercekig blokkolhatna a GUI szálon -- ezért háttérszálon
+        # fut (_readTidAsync), az actionReadRfidPushButton csak elindítja és
+        # azonnal visszatér.
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        if self.__closing:
+            return
+        if error is not None:
+            self.ui.statusBar.setText(error)
+        else:
+            self.ui.statusBar.setText(None)
+        self.__rfid = rfid
         entry = None
         if self.__rfid is not None:
             entry = MyJson.loads(self.__entrypickupModel.get_entry_from_rfid(self.__rfid))
@@ -147,9 +168,9 @@ class EntrypickupWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.statusBar.setFont(font)
         self.ui.closePushButton.setFont(font)
 
-    def readRfid(self):
-        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
-
     def closeEvent(self, event):
+        self.__closing = True
+        if self.__read_worker is not None and self.__read_worker.isRunning():
+            self.__read_worker.wait(6000)
         self.parent().show()
         self.close()
