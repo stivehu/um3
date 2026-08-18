@@ -79,7 +79,10 @@ visszaadja a szülő ablakot.
     dolgozza fel a GUI szálon, `ChipControllWindow`-hoz hasonló
     `restore_timer`-es debounce-szal (lásd Buktatók 8. és 10.)
 - `SendresultWindow` — RFID leolvasás időbélyeggel eredményküldéshez
-  - `scanrfid(self)` — RFID → `EntrypickupModel.create_entry_timestamp_from_rfid()`
+  - `scanrfid(self)` — nem blokkoló: `_readTidAsync`-kal háttérszálon indítja
+    az RFID olvasást és azonnal visszatér; az eredményt `__onRfidRead`
+    dolgozza fel a GUI szálon (`__reading_rfid` flag, `closeEvent` megvárja a
+    workert, lásd Buktatók 10.) → `EntrypickupModel.create_entry_timestamp_from_rfid()`
 - `ShowResultWindow` — "Eredmény kijelző": beágyazott `QWebEngineView`-ban
   mutatja a timing szerver publikus eredményoldalait, kioszk-képernyőként
   - alapból a `/entry/result` (összes futó) oldalt tölti be

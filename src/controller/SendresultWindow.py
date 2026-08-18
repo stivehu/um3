@@ -14,6 +14,9 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui = Ui_sendresultForm()
         self.ui.setupUi(self)
         self.__rfid = None
+        self.__reading_rfid = False
+        self.__read_worker = None
+        self.__closing = False
         self.__entrypickupModel = EntrypickupModel()
         self.__settings = SettingsModel()
         self.connectSignalsSlots()
@@ -61,7 +64,18 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
             self.ui.closePushButton.resizeEvent = self.resizeText
 
     def scanrfid(self):
-        self.readRfid()
+        if self.__reading_rfid:
+            return
+        self.__reading_rfid = True
+        self.__read_worker = self._readTidAsync(self.__settings.get_comm_port(), self.__onRfidRead)
+
+    def __onRfidRead(self, rfid, error):
+        self.__reading_rfid = False
+        self.__read_worker = None
+        if self.__closing:
+            return
+        self.ui.statusBar.setText(error)
+        self.__rfid = rfid
         entry = None
         if self.__rfid is not None:
             entry = MyJson.loads(self.__entrypickupModel.create_entry_timestamp_from_rfid(self.__rfid))
@@ -76,10 +90,10 @@ class SendresultWindow(QDialog, RfidReaderMixin, ResizeFontMixin):
         self.ui.lastnameLineEdit.setText(entry['lastname'])
         self.ui.timestampLineEdit.setText(entry['timestamp'])
 
-    def readRfid(self):
-        self.__rfid = self._readTid(self.__settings.get_comm_port(), self.ui.statusBar.setText)
-
     def closeEvent(self, event):
+        self.__closing = True
         self.timer.stop()
+        if self.__read_worker is not None and self.__read_worker.isRunning():
+            self.__read_worker.wait(6000)
         self.parent().show()
         self.close()
