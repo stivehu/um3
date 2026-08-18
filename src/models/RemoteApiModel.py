@@ -104,7 +104,8 @@ class RemoteApiModel(object):
                 self.status_code = response.status_code
                 return response.json()
             else:
-                self.error = json.loads(response.text)['message']
+                error_body = json.loads(response.text)
+                self.error = error_body.get('message', '') if isinstance(error_body, dict) else ''
                 self.status_code = response.status_code
                 return None
         # except ConnectionError:

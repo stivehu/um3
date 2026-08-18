@@ -57,6 +57,20 @@ def test_sendAjaxRequest_returns_none_on_json_decode_error(mocker):
     assert remoteApiModel.error == "Server error"
 
 
+def test_sendAjaxRequest_handles_null_body_on_error_response(mocker):
+    mocker.patch('src.models.SettingsModel.SettingsModel.get_server_ip', return_value="192.168.0.115")
+    remoteApiModel = RemoteApiModel()
+    fake_response = mocker.Mock()
+    fake_response.status_code = 401
+    fake_response.text = "null"
+    mocker.patch.object(remoteApiModel._RemoteApiModel__session, 'get', return_value=fake_response)
+
+    result = remoteApiModel.sendAjaxRequest('http://192.168.0.115/api/entry/view-from-startnum?startnum=1', 'get')
+
+    assert result is None
+    assert remoteApiModel.status_code == 401
+
+
 def test_sendAjaxRequest_returns_none_on_io_error(mocker):
     mocker.patch('src.models.SettingsModel.SettingsModel.get_server_ip', return_value="192.168.0.115")
     remoteApiModel = RemoteApiModel()

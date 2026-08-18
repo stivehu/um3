@@ -16,6 +16,11 @@ class EntryModel(object):
             result.pop("fragment", None)
         return result
 
+    def get_error_messages(self):
+        if self.__remoteApi.error:
+            return [self.__remoteApi.error]
+        return []
+
     def setinthebox(self, mode, id):
         if self.check_id_is_exists(mode, id):
             result = self.__remoteApi.sendAjaxRequest(self.__remoteApi.setinthebox_link(mode, id))

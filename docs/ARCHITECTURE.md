@@ -89,7 +89,7 @@ visszaadja a szülő ablakot.
     session cookie a nevezesV2 oldalhoz
 - `EntryModel` (fájl: `EnrtyModel.py`, elgépelt) — `create_new_entry`,
   `read_entry_from_startnum`, `update_rfid_from_startnum`, `loginSite`,
-  `setinthebox` — mind `RemoteApiModel`-re épül
+  `setinthebox`, `get_error_messages()` — mind `RemoteApiModel`-re épül
 - `EntrypickupModel` — `get_entry_from_rfid`, `updateEntryPickedUp/Down`,
   `create_entry_timestamp_from_rfid`; `checkFormat(entrydatas) -> bool`
   (statikus) ellenőrzi, hogy a válasz tartalmazza-e a várt kulcsokat
@@ -134,7 +134,9 @@ Saját beágyazott git repóval rendelkezik, lásd Buktatók.
    nincs login) és `get_entry_site_url()` (nevezesV2, login+CSRF kell) hívásait.
 2. `RemoteApiModel.sendAjaxRequest` a 200/201-en kívül mindent hibaként kezel,
    és `None`-t ad vissza kivétel helyett — hívás után mindig ellenőrizd
-   `self.error`-t / `status_code`-ot.
+   `self.error`-t / `status_code`-ot. A hibatörzs JSON-jét csak akkor olvassa
+   `message` kulcsként, ha az valóban dict (pl. bejelentkezés nélküli hívásnál
+   a szerver `"null"` törzset is adhat).
 3. `uhfreader18.py` és `uhfreader288m.py` egyaránt `G2InventoryResponseFrame`-et
    definiál, eltérő byte-elrendezéssel; `Chafonrfid.py` jelenleg csak a
    18-as verziót importálja és használja.
